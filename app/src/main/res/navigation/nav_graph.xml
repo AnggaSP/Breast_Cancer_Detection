@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2020 Angga Satya Putra
+
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  in compliance with the License. You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software distributed under the License
+  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing permissions and limitations under
+  the License.
+  -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_auth">
+
+    <fragment
+        android:id="@+id/navigation_auth"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.AuthFragment"
+        tools:layout="@layout/fragment_auth">
+        <action
+            android:id="@+id/action_auth_to_login"
+            app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_auth_to_register"
+            app:destination="@id/navigation_registration" />
+        <action
+            android:id="@+id/action_user_authenticated"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.login.LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_registration"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.register.RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_consultation"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.consultation.ConsultationFragment"
+        android:label="@string/title_consultation"
+        tools:layout="@layout/fragment_consultation" />
+
+    <fragment
+        android:id="@+id/navigation_notification"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.notification.NotificationFragment"
+        android:label="@string/title_notification"
+        tools:layout="@layout/fragment_notification" />
+
+    <fragment
+        android:id="@+id/navigation_diagnosis"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.diagnosis.DiagnosisFragment"
+        android:label="@string/title_diagnosis"
+        tools:layout="@layout/fragment_diagnosis" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

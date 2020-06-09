@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2020 Angga Satya Putra
+
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  in compliance with the License. You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software distributed under the License
+  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing permissions and limitations under
+  the License.
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.16129002"
+        android:scaleY="0.16129002"
+        android:translateX="13.092073"
+        android:translateY="12.709756">
+        <path
+            android:fillColor="#FFFE73BF"
+            android:pathData="M362.62 418.79l-73.41-157.73L347 136.94a18.1 18.1 0 0 0-1.15-17.43l-34.22-53.62a1.48 1.48 0 0 0-1.36-0.69 1.45 1.45 0 0 0-0.89 0.39V65.2H198.09v0.39a1.5 1.5 0 0 0-0.9-0.39 1.48 1.48 0 0 0-1.36 0.69l-34.18 53.62a18.07 18.07 0 0 0-1.16 17.43l57.77 124.12-25.71 55.22-47.71 102.51a1.51 1.51 0 0 0 2 2l40.74-17.53 12.83 42.46a1.5 1.5 0 0 0 2.79 0.2l50.57-108.66 50.53 108.68a1.5 1.5 0 0 0 1.36 0.86h0.11a1.5 1.5 0 0 0 1.33-1.06l12.82-42.46 40.75 17.53a1.51 1.51 0 0 0 1.95-2zm-108.89-234L228 129.52h51.48zm27.14-58.31h-54.28L199.45 68.2H308zm-117.66 9.16a15.1 15.1 0 0 1 1-14.56l32.72-51.31 55.19 118.58-32.21 69.15zm38.89 305.47l-12.17-40.31a1.51 1.51 0 0 0-0.81-0.92 1.48 1.48 0 0 0-1.22 0l-38.68 16.62L205.78 295l49.31-106 2.32-5L276 144.2l34.62-74.39 32.72 51.31a15.1 15.1 0 0 1 1 14.56l-52.5 112.8-48.42 104zm117.46-41.25a1.48 1.48 0 0 0-1.22 0 1.46 1.46 0 0 0-0.8 0.92l-12.18 40.31-50-107.38 32.16-69.12 70.72 151.91z" />
+    </group>
+</vector>
