@@ -124,6 +124,12 @@ class LoginFragment : BaseFragment() {
                         progressColor = Color.WHITE
                     }
                 }
+                AuthState.INVALID -> {
+                    Log.d(TAG, "Authentication failed.")
+                    binding.loginEmailLayout.error = getString(R.string.login_email_invalid)
+                    binding.loginPasswordLayout.error = getString(R.string.login_password_invalid)
+                    binding.loginEmailField.requestFocus()
+                }
                 AuthState.ERROR -> {
                     Log.e(TAG, "A network error has occurred.")
                     Toast.makeText(requireActivity(), R.string.auth_failed, Toast.LENGTH_LONG)

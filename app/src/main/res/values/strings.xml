@@ -39,7 +39,8 @@
     <string name="consultation_button_hint">Konsultasi</string>
 
     <string name="login_title">Masuk ke Deteksi Kanker Payudara</string>
-    <string name="login_invalid">Email atau password kurang tepat</string>
+    <string name="login_email_invalid">Email kurang tepat</string>
+    <string name="login_password_invalid">Password kurang tepat</string>
 
     <string name="register_title">Buat sebuah akun</string>
     <string name="register_name_hint">Nama Lengkap</string>
