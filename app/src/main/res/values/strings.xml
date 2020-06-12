@@ -20,10 +20,15 @@
     <string name="title_diagnosis">Diagnosa</string>
     <string name="title_profile">Profil</string>
 
+    <string name="auth_failed">Terdapat kesalahan dalam pemrosesan, silahkan coba beberapa saat lagi</string>
     <string name="button_login">Masuk</string>
     <string name="button_register">Registrasi</string>
+    <string name="name_invalid">Nama tidak valid</string>
+    <string name="email_exist">Email telah terdaftar</string>
     <string name="email_hint">Email</string>
+    <string name="email_invalid">Email tidak valid</string>
     <string name="password_hint">Password</string>
+    <string name="password_weak">Password terlalu lemah</string>
 
     <string name="consultation_prompt">Mohon untuk melengkapi data berikut ini</string>
     <string name="consultation_name_hint">Nama</string>
@@ -34,6 +39,7 @@
     <string name="consultation_button_hint">Konsultasi</string>
 
     <string name="login_title">Masuk ke Deteksi Kanker Payudara</string>
+    <string name="login_invalid">Email atau password kurang tepat</string>
 
     <string name="register_title">Buat sebuah akun</string>
     <string name="register_name_hint">Nama Lengkap</string>

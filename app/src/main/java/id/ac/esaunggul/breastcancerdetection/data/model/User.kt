@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.data
+package id.ac.esaunggul.breastcancerdetection.data.model
 
 data class User(
-    var id: Int,
-    var name: String,
-    var email: String,
-    var photoUrl: String
+    val id: Int? = null,
+    val name: String? = null,
+    val email: String? = null,
+    val photoUrl: String? = null
 )

@@ -19,26 +19,41 @@ package id.ac.esaunggul.breastcancerdetection.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import id.ac.esaunggul.breastcancerdetection.data.repo.AuthRepo
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
 import id.ac.esaunggul.breastcancerdetection.util.AuthState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AuthScope
 class AuthViewModel
 @Inject
 constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val authRepo: AuthRepo
 ) : ViewModel() {
 
     private val _authState = MutableLiveData<AuthState>()
+    val authState: LiveData<AuthState> = _authState
 
     init {
-        when (firebaseAuth.currentUser) {
-            null -> _authState.value = AuthState.UNAUTHENTICATED
-            else -> _authState.value = AuthState.AUTHENTICATED
+        _authState.value = authRepo.checkSession()
+    }
+
+    suspend fun login(email: String, password: String) {
+        withContext(Dispatchers.IO) {
+            authRepo.login(email, password).collect { value ->
+                _authState.postValue(value)
+            }
         }
     }
 
-    val authState: LiveData<AuthState> = _authState
+    suspend fun register(name: String, email: String, password: String) {
+        withContext(Dispatchers.IO) {
+            authRepo.register(name, email, password).collect { value ->
+                _authState.postValue(value)
+            }
+        }
+    }
 }

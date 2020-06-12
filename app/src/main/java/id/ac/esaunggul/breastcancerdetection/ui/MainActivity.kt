@@ -19,20 +19,19 @@ package id.ac.esaunggul.breastcancerdetection.ui
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.ActivityMainBinding
+import id.ac.esaunggul.breastcancerdetection.ui.common.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
         /*
-         * Dynamically set system ui property for edge-to-edge experience in supported platform
+         * Dynamically set system ui property for edge-to-edge experience in supported platform.
          */
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
@@ -47,11 +46,10 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityMainBinding =
-            DataBindingUtil.setContentView(
-                this,
-                R.layout.activity_main
-            )
+        val binding: ActivityMainBinding by binds(
+            this,
+            R.layout.activity_main
+        )
 
         binding.lifecycleOwner = this
 
@@ -61,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainNavView.setupWithNavController(navController)
 
         /*
-         * Hide the navigation bar when the user is not authenticated
+         * Hide the navigation bar when the user is not authenticated.
          */
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

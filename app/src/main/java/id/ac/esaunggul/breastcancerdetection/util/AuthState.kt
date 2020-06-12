@@ -23,5 +23,8 @@ enum class AuthState {
     AUTHENTICATED,
     UNAUTHENTICATED,
     LOADING,
-    ERROR
+    INVALID,
+    COLLIDE,
+    WEAK,
+    ERROR,
 }

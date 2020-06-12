@@ -19,12 +19,19 @@ package id.ac.esaunggul.breastcancerdetection.di.app
 import android.app.Application
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideAuthInstance(): FirebaseAuth = Firebase.auth
 
     @Singleton
     @Provides

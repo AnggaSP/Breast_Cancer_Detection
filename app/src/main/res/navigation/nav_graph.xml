@@ -40,7 +40,7 @@
         android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.login.LoginFragment"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
+            android:id="@+id/action_login_authenticated"
             app:destination="@id/navigation_home"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
@@ -51,7 +51,7 @@
         android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.register.RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment_to_navigation_home"
+            android:id="@+id/action_register_authenticated"
             app:destination="@id/navigation_home"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />

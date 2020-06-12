@@ -82,6 +82,7 @@ class AuthFragment : BaseFragment() {
             when (it) {
                 AuthState.AUTHENTICATED -> {
                     Log.d(TAG, "User has logged in, continuing the session.")
+                    (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
                     view?.findNavController()
                         ?.navigate(AuthFragmentDirections.actionUserAuthenticated())
                 }

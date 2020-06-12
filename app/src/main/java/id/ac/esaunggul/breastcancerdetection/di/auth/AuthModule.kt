@@ -17,15 +17,15 @@
 package id.ac.esaunggul.breastcancerdetection.di.auth
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
+import id.ac.esaunggul.breastcancerdetection.data.repo.AuthRepo
 
 @Module
 object AuthModule {
 
     @AuthScope
     @Provides
-    fun provideAuthInstance(): FirebaseAuth = Firebase.auth
+    fun provideAuthRepo(auth: FirebaseAuth): AuthRepo =
+        AuthRepo(auth)
 }
