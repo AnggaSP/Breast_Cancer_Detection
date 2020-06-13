@@ -27,7 +27,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
@@ -118,8 +118,7 @@ class LoginFragment : BaseFragment() {
             when (it) {
                 AuthState.AUTHENTICATED -> {
                     (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
-                    view?.findNavController()
-                        ?.navigate(LoginFragmentDirections.actionLoginAuthenticated())
+                    findNavController().navigate(LoginFragmentDirections.actionLoginAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {
                     binding.loginButton.hideProgress(R.string.button_login)

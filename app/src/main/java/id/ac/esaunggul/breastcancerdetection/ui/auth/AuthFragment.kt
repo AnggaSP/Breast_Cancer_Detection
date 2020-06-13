@@ -24,12 +24,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 import javax.inject.Inject
 
 class AuthFragment : BaseFragment() {
@@ -71,20 +75,23 @@ class AuthFragment : BaseFragment() {
 
         applyInsets(binding.authParentLayout)
 
-        binding.authLoginButton.setOnClickListener { view ->
-            view.findNavController().navigate(AuthFragmentDirections.actionAuthToLogin())
-        }
-        binding.authRegisterButton.setOnClickListener { view ->
-            view.findNavController().navigate(AuthFragmentDirections.actionAuthToRegister())
-        }
+        binding.authLoginButton.clicks()
+            .onEach {
+                findNavController().navigate(AuthFragmentDirections.actionAuthToLogin())
+            }
+            .launchIn(lifecycleScope)
+        binding.authRegisterButton.clicks()
+            .onEach {
+                findNavController().navigate(AuthFragmentDirections.actionAuthToRegister())
+            }
+            .launchIn(lifecycleScope)
 
         authViewModel.authState.observe(viewLifecycleOwner, Observer {
             when (it) {
                 AuthState.AUTHENTICATED -> {
                     Log.d(TAG, "User has logged in, continuing the session.")
                     (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
-                    view?.findNavController()
-                        ?.navigate(AuthFragmentDirections.actionUserAuthenticated())
+                    findNavController().navigate(AuthFragmentDirections.actionUserAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {
                     Log.d(
