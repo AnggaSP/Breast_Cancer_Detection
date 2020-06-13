@@ -21,7 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import id.ac.esaunggul.breastcancerdetection.data.repo.AuthRepo
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
-import id.ac.esaunggul.breastcancerdetection.util.AuthState
+import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext

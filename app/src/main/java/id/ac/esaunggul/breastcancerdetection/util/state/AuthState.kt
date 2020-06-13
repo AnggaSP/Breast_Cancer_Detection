@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.util
+package id.ac.esaunggul.breastcancerdetection.util.state
 
 /**
  * An enum class representing the current authentication state.

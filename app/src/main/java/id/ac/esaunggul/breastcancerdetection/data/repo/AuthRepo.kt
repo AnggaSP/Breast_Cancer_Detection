@@ -19,7 +19,7 @@ package id.ac.esaunggul.breastcancerdetection.data.repo
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
-import id.ac.esaunggul.breastcancerdetection.util.AuthState
+import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch

@@ -29,7 +29,7 @@ import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
-import id.ac.esaunggul.breastcancerdetection.util.AuthState
+import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import javax.inject.Inject
 
 class AuthFragment : BaseFragment() {

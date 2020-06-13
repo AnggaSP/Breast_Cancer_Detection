@@ -37,10 +37,14 @@ import id.ac.esaunggul.breastcancerdetection.databinding.FragmentLoginBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
-import id.ac.esaunggul.breastcancerdetection.util.AuthState
-import id.ac.esaunggul.breastcancerdetection.util.FormValidation
+import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
+import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
+import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment() {
@@ -84,28 +88,31 @@ class LoginFragment : BaseFragment() {
 
         viewLifecycleOwner.bindProgressButton(binding.loginButton)
 
-        binding.loginButton.setOnClickListener {
-            binding.loginEmailLayout.error = null
-            binding.loginPasswordLayout.error = null
-            when {
-                FormValidation.isEmailNotValid(binding.loginEmailField.text.toString()) -> {
-                    binding.loginEmailLayout.error = getString(R.string.email_invalid)
-                    binding.loginEmailField.requestFocus()
-                }
-                FormValidation.isPasswordWeak(binding.loginPasswordField.text.toString()) -> {
-                    binding.loginPasswordLayout.error = getString(R.string.password_weak)
-                    binding.loginPasswordField.requestFocus()
-                }
-                else -> {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        authViewModel.login(
-                            binding.loginEmailField.text.toString(),
-                            binding.loginPasswordField.text.toString()
-                        )
+        binding.loginButton.clicks()
+            .throttleFirst(1000)
+            .onEach {
+                binding.loginEmailLayout.error = null
+                binding.loginPasswordLayout.error = null
+                when {
+                    FormValidation.isEmailNotValid(binding.loginEmailField.text.toString()) -> {
+                        binding.loginEmailLayout.error = getString(R.string.email_invalid)
+                        binding.loginEmailField.requestFocus()
+                    }
+                    FormValidation.isPasswordWeak(binding.loginPasswordField.text.toString()) -> {
+                        binding.loginPasswordLayout.error = getString(R.string.password_weak)
+                        binding.loginPasswordField.requestFocus()
+                    }
+                    else -> {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            authViewModel.login(
+                                binding.loginEmailField.text.toString(),
+                                binding.loginPasswordField.text.toString()
+                            )
+                        }
                     }
                 }
             }
-        }
+            .launchIn(lifecycleScope)
 
         authViewModel.authState.observe(viewLifecycleOwner, Observer {
             when (it) {

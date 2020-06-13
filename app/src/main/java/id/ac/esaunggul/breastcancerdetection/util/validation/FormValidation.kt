@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.util
+package id.ac.esaunggul.breastcancerdetection.util.validation
 
 /**
  * A singleton class that implement a set of common form validation.

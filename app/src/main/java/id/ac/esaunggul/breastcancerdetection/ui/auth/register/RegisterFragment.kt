@@ -37,10 +37,14 @@ import id.ac.esaunggul.breastcancerdetection.databinding.FragmentRegisterBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
-import id.ac.esaunggul.breastcancerdetection.util.AuthState
-import id.ac.esaunggul.breastcancerdetection.util.FormValidation
+import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
+import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
+import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
 import javax.inject.Inject
 
 class RegisterFragment : BaseFragment() {
@@ -84,34 +88,37 @@ class RegisterFragment : BaseFragment() {
 
         viewLifecycleOwner.bindProgressButton(binding.registerButton)
 
-        binding.registerButton.setOnClickListener {
-            binding.registerNameLayout.error = null
-            binding.registerEmailLayout.error = null
-            binding.registerPasswordLayout.error = null
-            when {
-                FormValidation.isNameNotValid(binding.registerNameField.text.toString()) -> {
-                    binding.registerNameLayout.error = getString(R.string.name_invalid)
-                    binding.registerNameField.requestFocus()
-                }
-                FormValidation.isEmailNotValid(binding.registerEmailField.text.toString()) -> {
-                    binding.registerEmailLayout.error = getString(R.string.email_invalid)
-                    binding.registerEmailField.requestFocus()
-                }
-                FormValidation.isPasswordWeak(binding.registerPasswordField.text.toString()) -> {
-                    binding.registerPasswordLayout.error = getString(R.string.password_weak)
-                    binding.registerPasswordField.requestFocus()
-                }
-                else -> {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        authViewModel.register(
-                            binding.registerNameField.text.toString(),
-                            binding.registerEmailField.text.toString(),
-                            binding.registerPasswordField.text.toString()
-                        )
+        binding.registerButton.clicks()
+            .throttleFirst(1000)
+            .onEach {
+                binding.registerNameLayout.error = null
+                binding.registerEmailLayout.error = null
+                binding.registerPasswordLayout.error = null
+                when {
+                    FormValidation.isNameNotValid(binding.registerNameField.text.toString()) -> {
+                        binding.registerNameLayout.error = getString(R.string.name_invalid)
+                        binding.registerNameField.requestFocus()
+                    }
+                    FormValidation.isEmailNotValid(binding.registerEmailField.text.toString()) -> {
+                        binding.registerEmailLayout.error = getString(R.string.email_invalid)
+                        binding.registerEmailField.requestFocus()
+                    }
+                    FormValidation.isPasswordWeak(binding.registerPasswordField.text.toString()) -> {
+                        binding.registerPasswordLayout.error = getString(R.string.password_weak)
+                        binding.registerPasswordField.requestFocus()
+                    }
+                    else -> {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            authViewModel.register(
+                                binding.registerNameField.text.toString(),
+                                binding.registerEmailField.text.toString(),
+                                binding.registerPasswordField.text.toString()
+                            )
+                        }
                     }
                 }
             }
-        }
+            .launchIn(lifecycleScope)
 
         authViewModel.authState.observe(viewLifecycleOwner, Observer {
             when (it) {

@@ -7,6 +7,9 @@ buildscript {
         // Dagger
         dagger_version = "2.27"
 
+        // Flow binding
+        flowbinding_version = "0.12.0"
+
         // Glide
         glide_version = "4.11.0"
 
