@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.ui.main.diagnosis
+package id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis
 
 import android.os.Bundle
 import android.view.LayoutInflater

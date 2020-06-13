@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.ui.main.profile
+package id.ac.esaunggul.breastcancerdetection.ui.main.user.consultation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.ac.esaunggul.breastcancerdetection.R
-import id.ac.esaunggul.breastcancerdetection.databinding.FragmentProfileBinding
+import id.ac.esaunggul.breastcancerdetection.databinding.FragmentConsultationBinding
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
 
-class ProfileFragment : BaseFragment() {
+class ConsultationFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentProfileBinding by binds(
-            R.layout.fragment_profile,
+        val binding: FragmentConsultationBinding by binds(
+            R.layout.fragment_consultation,
             container
         )
 

@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.ui.main.home
+package id.ac.esaunggul.breastcancerdetection.ui.main.user.notification
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import id.ac.esaunggul.breastcancerdetection.R
-import id.ac.esaunggul.breastcancerdetection.databinding.FragmentHomeBinding
+import id.ac.esaunggul.breastcancerdetection.databinding.FragmentNotificationBinding
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
 
-class HomeFragment : BaseFragment() {
+class NotificationFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentHomeBinding by binds(
-            R.layout.fragment_home,
+        val binding: FragmentNotificationBinding by binds(
+            R.layout.fragment_notification,
             container
         )
 

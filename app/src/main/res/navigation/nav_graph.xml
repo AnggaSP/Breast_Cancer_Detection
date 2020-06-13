@@ -59,31 +59,31 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.home.HomeFragment"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_consultation"
-        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.consultation.ConsultationFragment"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.consultation.ConsultationFragment"
         android:label="@string/title_consultation"
         tools:layout="@layout/fragment_consultation" />
 
     <fragment
         android:id="@+id/navigation_notification"
-        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.notification.NotificationFragment"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.notification.NotificationFragment"
         android:label="@string/title_notification"
         tools:layout="@layout/fragment_notification" />
 
     <fragment
         android:id="@+id/navigation_diagnosis"
-        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.diagnosis.DiagnosisFragment"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis.DiagnosisFragment"
         android:label="@string/title_diagnosis"
         tools:layout="@layout/fragment_diagnosis" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.profile.ProfileFragment"
+        android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

@@ -22,10 +22,10 @@ import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import id.ac.esaunggul.breastcancerdetection.R
-import id.ac.esaunggul.breastcancerdetection.databinding.ActivityMainBinding
+import id.ac.esaunggul.breastcancerdetection.databinding.ActivityCommonBinding
 import id.ac.esaunggul.breastcancerdetection.ui.common.BaseActivity
 
-class MainActivity : BaseActivity() {
+class CommonActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -46,27 +46,27 @@ class MainActivity : BaseActivity() {
 
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityMainBinding by binds(
+        val binding: ActivityCommonBinding by binds(
             this,
-            R.layout.activity_main
+            R.layout.activity_common
         )
 
         binding.lifecycleOwner = this
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.common_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        binding.mainNavView.setupWithNavController(navController)
+        binding.commonNavView.setupWithNavController(navController)
 
         /*
          * Hide the navigation bar when the user is not authenticated.
          */
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_auth -> binding.mainNavView.visibility = View.GONE
-                R.id.navigation_login -> binding.mainNavView.visibility = View.GONE
-                R.id.navigation_registration -> binding.mainNavView.visibility = View.GONE
-                else -> binding.mainNavView.visibility = View.VISIBLE
+                R.id.navigation_auth -> binding.commonNavView.visibility = View.GONE
+                R.id.navigation_login -> binding.commonNavView.visibility = View.GONE
+                R.id.navigation_registration -> binding.commonNavView.visibility = View.GONE
+                else -> binding.commonNavView.visibility = View.VISIBLE
             }
         }
     }
