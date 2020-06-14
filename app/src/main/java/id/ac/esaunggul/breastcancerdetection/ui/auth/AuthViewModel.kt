@@ -19,12 +19,13 @@ package id.ac.esaunggul.breastcancerdetection.ui.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import id.ac.esaunggul.breastcancerdetection.data.repo.AuthRepo
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AuthScope
@@ -41,16 +42,16 @@ constructor(
         _authState.value = authRepo.checkSession()
     }
 
-    suspend fun login(email: String, password: String) {
-        withContext(Dispatchers.IO) {
+    fun login(email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepo.login(email, password).collect { value ->
                 _authState.postValue(value)
             }
         }
     }
 
-    suspend fun register(name: String, email: String, password: String) {
-        withContext(Dispatchers.IO) {
+    fun register(name: String, email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepo.register(name, email, password).collect { value ->
                 _authState.postValue(value)
             }

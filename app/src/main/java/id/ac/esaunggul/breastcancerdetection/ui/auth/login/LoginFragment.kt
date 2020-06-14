@@ -40,10 +40,8 @@ import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
 import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import reactivecircus.flowbinding.android.view.clicks
 import javax.inject.Inject
 
@@ -103,12 +101,10 @@ class LoginFragment : BaseFragment() {
                         binding.loginPasswordField.requestFocus()
                     }
                     else -> {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            authViewModel.login(
-                                binding.loginEmailField.text.toString(),
-                                binding.loginPasswordField.text.toString()
-                            )
-                        }
+                        authViewModel.login(
+                            binding.loginEmailField.text.toString(),
+                            binding.loginPasswordField.text.toString()
+                        )
                     }
                 }
             }

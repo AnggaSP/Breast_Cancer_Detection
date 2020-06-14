@@ -40,10 +40,8 @@ import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
 import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import reactivecircus.flowbinding.android.view.clicks
 import javax.inject.Inject
 
@@ -108,13 +106,11 @@ class RegisterFragment : BaseFragment() {
                         binding.registerPasswordField.requestFocus()
                     }
                     else -> {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            authViewModel.register(
-                                binding.registerNameField.text.toString(),
-                                binding.registerEmailField.text.toString(),
-                                binding.registerPasswordField.text.toString()
-                            )
-                        }
+                        authViewModel.register(
+                            binding.registerNameField.text.toString(),
+                            binding.registerEmailField.text.toString(),
+                            binding.registerPasswordField.text.toString()
+                        )
                     }
                 }
             }
