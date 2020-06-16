@@ -19,13 +19,14 @@ package id.ac.esaunggul.breastcancerdetection.ui
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.ActivityCommonBinding
-import id.ac.esaunggul.breastcancerdetection.ui.common.BaseActivity
+import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
 
-class CommonActivity : BaseActivity() {
+class CommonActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)

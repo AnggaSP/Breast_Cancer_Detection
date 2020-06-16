@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.ui.common
+package id.ac.esaunggul.breastcancerdetection.util.extensions
 
 import android.app.Activity
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
 /**
- * A class that extends [AppCompatActivity] and implement a set of common helper methods.
+ * Lazily inflates a binding layout using [DataBindingUtil] and returns the newly-created
+ * binding for that layout.
  */
-abstract class BaseActivity : AppCompatActivity() {
+@MainThread
+inline fun <reified T : ViewDataBinding> binds(
+    @NonNull inflater: LayoutInflater,
+    @LayoutRes resId: Int,
+    container: ViewGroup?
+): Lazy<T> = lazy { DataBindingUtil.inflate<T>(inflater, resId, container, false) }
 
-    /**
-     * Lazily set the Activity's content view to the given layout and return the associated binding.
-     * The given layout resource must not be a merge layout.
-     */
-    @MainThread
-    protected inline fun <reified T : ViewDataBinding> binds(
-        @NonNull activity: Activity,
-        @LayoutRes resId: Int
-    ): Lazy<T> = lazy { DataBindingUtil.setContentView<T>(activity, resId) }
-}
+/**
+ * Lazily set the Activity's content view to the given layout and return the associated binding.
+ * The given layout resource must not be a merge layout.
+ */
+@MainThread
+inline fun <reified T : ViewDataBinding> binds(
+    @NonNull activity: Activity,
+    @LayoutRes resId: Int
+): Lazy<T> = lazy { DataBindingUtil.setContentView<T>(activity, resId) }

@@ -20,11 +20,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentProfileBinding
-import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
+import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
 
-class ProfileFragment : BaseFragment() {
+class ProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +33,7 @@ class ProfileFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentProfileBinding by binds(
+            inflater,
             R.layout.fragment_profile,
             container
         )

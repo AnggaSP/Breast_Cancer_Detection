@@ -22,6 +22,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -29,14 +30,16 @@ import androidx.navigation.fragment.findNavController
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
-import id.ac.esaunggul.breastcancerdetection.ui.common.BaseFragment
+import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
+import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
+import id.ac.esaunggul.breastcancerdetection.util.extensions.startSharedAxisTransition
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import reactivecircus.flowbinding.android.view.clicks
 import javax.inject.Inject
 
-class AuthFragment : BaseFragment() {
+class AuthFragment : Fragment() {
 
     companion object {
         private const val TAG = "Auth"
@@ -67,6 +70,7 @@ class AuthFragment : BaseFragment() {
         }
 
         val binding: FragmentAuthBinding by binds(
+            inflater,
             R.layout.fragment_auth,
             container
         )
