@@ -16,7 +16,12 @@
 
 package id.ac.esaunggul.breastcancerdetection.data.repo
 
-import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthEmailException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState

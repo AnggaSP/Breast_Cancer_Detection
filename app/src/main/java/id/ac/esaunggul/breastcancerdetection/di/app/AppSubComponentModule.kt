@@ -18,10 +18,12 @@ package id.ac.esaunggul.breastcancerdetection.di.app
 
 import dagger.Module
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthComponent
+import id.ac.esaunggul.breastcancerdetection.di.main.MainComponent
 
 @Module(
     subcomponents = [
-        AuthComponent::class
+        AuthComponent::class,
+        MainComponent::class
     ]
 )
 class AppSubComponentModule

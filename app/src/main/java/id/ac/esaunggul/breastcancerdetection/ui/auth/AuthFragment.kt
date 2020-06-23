@@ -27,12 +27,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.platform.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
-import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
-import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
 import id.ac.esaunggul.breastcancerdetection.util.extensions.startSharedAxisTransition
+import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -58,6 +58,8 @@ class AuthFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         startSharedAxisTransition()
+
+        enterTransition = MaterialFadeThrough()
     }
 
     override fun onCreateView(
@@ -69,11 +71,7 @@ class AuthFragment : Fragment() {
             authViewModelFactory
         }
 
-        val binding: FragmentAuthBinding by binds(
-            inflater,
-            R.layout.fragment_auth,
-            container
-        )
+        val binding = FragmentAuthBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
 

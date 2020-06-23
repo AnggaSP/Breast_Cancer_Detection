@@ -20,6 +20,7 @@ import android.app.Application
 import id.ac.esaunggul.breastcancerdetection.di.app.AppComponent
 import id.ac.esaunggul.breastcancerdetection.di.app.DaggerAppComponent
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthComponent
+import id.ac.esaunggul.breastcancerdetection.di.main.MainComponent
 
 class BreastCancerDetection : Application() {
 
@@ -28,6 +29,7 @@ class BreastCancerDetection : Application() {
         .create(this)
 
     private var authComponent: AuthComponent? = null
+    private var mainComponent: MainComponent? = null
 
     fun authComponent(): AuthComponent {
         if (authComponent == null) {
@@ -38,5 +40,16 @@ class BreastCancerDetection : Application() {
 
     fun releaseAuthComponent() {
         authComponent = null
+    }
+
+    fun mainComponent(): MainComponent {
+        if (mainComponent == null) {
+            mainComponent = appComponent.mainComponent().create()
+        }
+        return mainComponent as MainComponent
+    }
+
+    fun releaseMainComponent() {
+        mainComponent = null
     }
 }

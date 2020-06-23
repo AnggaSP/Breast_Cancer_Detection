@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2020 Angga Satya Putra
+
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  in compliance with the License. You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software distributed under the License
+  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing permissions and limitations under
+  the License.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Metadata. -->
+    <string name="app_name">Deteksi</string>
+    <string name="app_bar_name">Deteksi Kanker Payudara</string>
+
+    <string name="title_consultation">Konsultasi</string>
+    <string name="title_diagnosis">Diagnosa</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_notification">Notifikasi</string>
+    <string name="title_profile">Profil</string>
+
+    <!-- Common Strings. -->
+    <string name="form_prompt">Mohon untuk melengkapi data berikut ini</string>
+    <string name="form_name_hint">Nama</string>
+    <string name="form_address_hint">Alamat</string>
+    <string name="form_history_hint">Riwayat Penyakit</string>
+    <string name="form_date_hint">Tanggal</string>
+    <string name="form_concern_hint">Keluhan Yang di Derita</string>
+
+    <string name="form_empty">Bagian ini wajib diisi</string>
+    <string name="form_submitted">Data berhasil dimasukkan</string>
+
+    <string name="mtrl_picker_date_header_unselected" tools:override="true">Tanggal</string>
+    <string name="mtrl_picker_text_input_date_hint" tools:override="true">Tanggal Konsultasi</string>
+
+    <string name="name_invalid">Nama tidak valid</string>
+    <string name="network_failed">Terdapat kesalahan dalam pemrosesan, silahkan coba beberapa saat lagi</string>
+
+    <!-- Authentication Strings. -->
+    <string name="auth_prompt">Mohon masuk untuk melanjutkan</string>
+    <string name="auth_title">Selamat datang di Deteksi Kanker Payudara</string>
+
+    <string name="button_login">Masuk</string>
+    <string name="button_log_out">Keluar</string>
+    <string name="button_register">Registrasi</string>
+
+    <string name="email_exist">Email telah terdaftar</string>
+    <string name="email_hint">Email</string>
+    <string name="email_invalid">Email tidak valid</string>
+
+    <string name="login_title">Masuk ke Deteksi Kanker Payudara</string>
+    <string name="login_email_invalid">Email kurang tepat</string>
+    <string name="login_password_invalid">Password kurang tepat</string>
+
+    <string name="password_hint">Password</string>
+    <string name="password_weak">Password terlalu lemah</string>
+
+    <string name="register_title">Buat sebuah akun</string>
+    <string name="register_name_hint">Nama Lengkap</string>
+
+    <!-- Image content descriptions for accessibility. -->
+    <string name="article_image_description">Gambar artikel</string>
+    <string name="auth_image_description">Gambar melambangkan kebersamaan</string>
+    <string name="author_image_description">Gambar penulis</string>
+    <string name="diagnosis_image_description">Gambar menu</string>
+    <string name="navigate_description">Masuk ke dalam opsi ini</string>
+    <string name="notification_image_description">Ikon status notifikasi</string>
+
+    <!-- Main Strings. -->
+    <string name="consultation_form_button_hint">Jadwalkan Konsultasi</string>
+    <string name="diagnosis_form_button_hint">Jadwalkan Diagnosis</string>
+
+    <string name="diagnosis_mammography">Mammografi</string>
+    <string name="diagnosis_mammography_description">Pemeriksaan kanker payudara menggunakan sinar-X dosis rendah</string>
+
+    <string name="notification_caught_up">Semua notifikasi telah dibaca</string>
+</resources>

@@ -21,14 +21,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView"
+        <ImageView
+            android:id="@+id/notifications_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello Notification"
+            android:contentDescription="@string/notification_image_description"
+            app:layout_constraintBottom_toTopOf="@id/notifications_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/ic_notifications_48" />
+
+        <TextView
+            android:id="@+id/notifications_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/notification_caught_up"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/notifications_icon"
+            tools:text="All caught up!" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

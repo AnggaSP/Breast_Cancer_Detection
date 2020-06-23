@@ -20,6 +20,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthComponent
+import id.ac.esaunggul.breastcancerdetection.di.main.MainComponent
 import javax.inject.Singleton
 
 @Singleton
@@ -37,4 +38,5 @@ interface AppComponent {
     }
 
     fun authComponent(): AuthComponent.Factory
+    fun mainComponent(): MainComponent.Factory
 }

@@ -21,24 +21,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import id.ac.esaunggul.breastcancerdetection.R
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.platform.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentDiagnosisBinding
-import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 
 class DiagnosisFragment : Fragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentDiagnosisBinding by binds(
-            inflater,
-            R.layout.fragment_diagnosis,
-            container
-        )
+        val binding = FragmentDiagnosisBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
+
+        binding.diagnosisCardView.clicks()
+            .onEach {
+                findNavController().navigate(DiagnosisFragmentDirections.actionDiagnosisToForm())
+            }
+            .launchIn(lifecycleScope)
 
         return binding.root
     }

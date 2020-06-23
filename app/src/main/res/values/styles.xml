@@ -26,4 +26,21 @@
     <style name="AppTheme.Splash">
         <item name="android:windowBackground">@drawable/ic_splash_container</item>
     </style>
+
+    <!-- Round image. -->
+    <style name="CircleImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- Collapsible text theme.  -->
+    <style name="ExpandedTitleText" parent="AppTheme">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Headline. -->
+    <style name="Headline" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/alegreya</item>
+        <item name="android:fontFamily">@font/alegreya</item>
+    </style>
 </resources>

@@ -36,11 +36,10 @@ import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentLoginBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
-import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
-import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
 import id.ac.esaunggul.breastcancerdetection.util.extensions.endSharedAxisTransition
 import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
+import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.flow.launchIn
@@ -78,11 +77,7 @@ class LoginFragment : Fragment() {
             authViewModelFactory
         }
 
-        val binding: FragmentLoginBinding by binds(
-            inflater,
-            R.layout.fragment_login,
-            container
-        )
+        val binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
 
@@ -125,6 +120,8 @@ class LoginFragment : Fragment() {
                 }
                 AuthState.LOADING -> {
                     Log.d(TAG, "Loading the data...")
+                    binding.loginEmailField.clearFocus()
+                    binding.loginPasswordField.clearFocus()
                     binding.loginButton.showProgress {
                         textMarginPx = 0
                         progressColor = Color.WHITE
@@ -138,7 +135,7 @@ class LoginFragment : Fragment() {
                 }
                 AuthState.ERROR -> {
                     Log.e(TAG, "A network error has occurred.")
-                    Toast.makeText(requireActivity(), R.string.auth_failed, Toast.LENGTH_LONG)
+                    Toast.makeText(requireActivity(), R.string.network_failed, Toast.LENGTH_LONG)
                         .show()
                 }
                 else -> {

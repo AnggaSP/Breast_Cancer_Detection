@@ -38,7 +38,7 @@ object FormValidation {
     }
 
     /**
-     * Check if the password being inputted is valid or not.
+     * Check if the name being inputted is valid or not.
      * @param name String of the name being validated.
      */
     fun isNameNotValid(name: String): Boolean {

@@ -21,7 +21,7 @@ import dagger.MapKey
 import kotlin.reflect.KClass
 
 /**
- * Map multibindings for the auth view model
+ * Map multibindings for the authentication view model
  */
 @MustBeDocumented
 @Target(

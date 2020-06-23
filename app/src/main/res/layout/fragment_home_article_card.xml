@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2020 Angga Satya Putra
+
+  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  in compliance with the License. You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software distributed under the License
+  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing permissions and limitations under
+  the License.
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.user.home.HomeArticleCardAdapter">
+
+    <data>
+
+        <variable
+            name="article"
+            type="id.ac.esaunggul.breastcancerdetection.data.model.ArticleModel" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/article_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardElevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/article_card_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/article_main_image"
+                android:layout_width="0dp"
+                android:layout_height="220dp"
+                android:contentDescription="@string/article_image_description"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{article.imageUrl}"
+                app:layout_constraintBottom_toTopOf="@id/article_title_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/article_title_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{article.title}"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/article_main_image"
+                tools:text="Article Title" />
+
+            <com.github.florent37.shapeofview.shapes.CircleView
+                android:id="@+id/article_author_image_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/article_author_text"
+                app:layout_constraintHorizontal_weight="0.05"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/article_title_text">
+
+                <ImageView
+                    android:id="@+id/article_author_image"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:contentDescription="@string/author_image_description"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{article.imageAuthorUrl}"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+            </com.github.florent37.shapeofview.shapes.CircleView>
+
+            <TextView
+                android:id="@+id/article_author_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{article.author}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/article_date_text"
+                app:layout_constraintHorizontal_weight="0.60"
+                app:layout_constraintStart_toEndOf="@id/article_author_image_layout"
+                app:layout_constraintTop_toBottomOf="@id/article_title_text"
+                tools:text="Author" />
+
+            <TextView
+                android:id="@+id/article_date_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="end"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.35"
+                app:layout_constraintStart_toEndOf="@id/article_author_text"
+                app:layout_constraintTop_toBottomOf="@id/article_title_text"
+                app:textDate="@{article.datePublished}"
+                tools:ignore="SmallSp"
+                tools:text="Date" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

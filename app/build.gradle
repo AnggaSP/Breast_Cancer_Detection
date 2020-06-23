@@ -2,16 +2,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.google.gms.google-services'
 
 def keystorePropertiesFile = file("../keystore.properties")
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
 
     buildFeatures {
         dataBinding = true
@@ -20,17 +22,19 @@ android {
     defaultConfig {
         applicationId "id.ac.esaunggul.breastcancerdetection"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
 
-    signingConfigs {
-        release {
-            storeFile = file(keystoreProperties['storeFile'])
-            storePassword = keystoreProperties['storePassword']
-            keyAlias = keystoreProperties['keyAlias']
-            keyPassword = keystoreProperties['keyPassword']
+    if (keystorePropertiesFile.exists()) {
+        signingConfigs {
+            release {
+                storeFile = file(keystoreProperties['storeFile'])
+                storePassword = keystoreProperties['storePassword']
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+            }
         }
     }
 
@@ -39,7 +43,9 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
@@ -57,6 +63,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
     implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.collection:collection-ktx:$collection_ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout_version"
@@ -70,14 +77,19 @@ dependencies {
     implementation "androidx.navigation:navigation-runtime-ktx:$navigation_ktx_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_ktx_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    implementation "androidx.transition:transition:$transition_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.florent37:shapeofview:$shapeofview_version"
     implementation "com.github.razir.progressbutton:progressbutton:$progressbutton_version"
+    implementation "com.github.skydoves:androidveil:$shimmer_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-firestore-ktx"
     implementation "io.github.reactivecircus.flowbinding:flowbinding-android:$flowbinding_version"
     implementation "io.github.reactivecircus.flowbinding:flowbinding-material:$flowbinding_version"
+    implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboard_visibility_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"

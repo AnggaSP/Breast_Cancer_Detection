@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.ui.auth
+package id.ac.esaunggul.breastcancerdetection.util.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
+import id.ac.esaunggul.breastcancerdetection.di.main.MainScope
 import javax.inject.Inject
 import javax.inject.Provider
 
-@AuthScope
-class AuthViewModelFactory
+@MainScope
+class MainViewModelFactory
 @Inject
 constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>

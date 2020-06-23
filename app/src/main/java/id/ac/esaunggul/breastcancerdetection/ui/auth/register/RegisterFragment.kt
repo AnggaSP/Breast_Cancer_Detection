@@ -36,11 +36,10 @@ import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentRegisterBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
-import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
-import id.ac.esaunggul.breastcancerdetection.util.extensions.binds
 import id.ac.esaunggul.breastcancerdetection.util.extensions.endSharedAxisTransition
 import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
+import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.flow.launchIn
@@ -78,11 +77,7 @@ class RegisterFragment : Fragment() {
             authViewModelFactory
         }
 
-        val binding: FragmentRegisterBinding by binds(
-            inflater,
-            R.layout.fragment_register,
-            container
-        )
+        val binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
 
@@ -131,6 +126,9 @@ class RegisterFragment : Fragment() {
                 }
                 AuthState.LOADING -> {
                     Log.d(TAG, "Loading the data...")
+                    binding.registerNameField.clearFocus()
+                    binding.registerEmailField.clearFocus()
+                    binding.registerPasswordField.clearFocus()
                     binding.registerButton.showProgress {
                         textMarginPx = 0
                         progressColor = Color.WHITE
@@ -148,7 +146,7 @@ class RegisterFragment : Fragment() {
                 }
                 AuthState.ERROR -> {
                     Log.e(TAG, "A network error has occurred.")
-                    Toast.makeText(requireActivity(), R.string.auth_failed, Toast.LENGTH_LONG)
+                    Toast.makeText(requireActivity(), R.string.network_failed, Toast.LENGTH_LONG)
                         .show()
                 }
                 else -> {

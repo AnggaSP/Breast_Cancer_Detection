@@ -46,7 +46,7 @@
             app:boxBackgroundColor="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_title">
+            app:layout_constraintTop_toBottomOf="@id/register_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_name_field"
@@ -68,7 +68,7 @@
             app:boxBackgroundColor="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_name_layout">
+            app:layout_constraintTop_toBottomOf="@id/register_name_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_email_field"
@@ -92,7 +92,7 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_email_layout">
+            app:layout_constraintTop_toBottomOf="@id/register_email_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_password_field"

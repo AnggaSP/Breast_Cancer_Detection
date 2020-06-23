@@ -17,18 +17,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.main.user.home.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.skydoves.androidveil.VeilRecyclerFrameView
+        android:id="@+id/home_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello Home"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+        android:transitionGroup="true"
+        app:veilFrame_baseColor="#E0E0E0"
+        app:veilFrame_highlightColor="#F5F5F5"
+        app:veilFrame_layout="@layout/fragment_home_article_card"
+        app:veilFrame_shimmerEnable="true"
+        app:veilFrame_veiled="true"
+        app:veilLayout_baseAlpha="0.6"
+        app:veilLayout_dropOff="0.5"
+        app:veilLayout_highlightAlpha="1.0"
+        tools:listitem="@layout/fragment_home_article_card" />
 </layout>

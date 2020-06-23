@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 
 /**
- * Returns a flow which throttles the flow being emitted
+ * Returns a flow which throttles the flow being emitted.
  */
 fun <T> Flow<T>.throttleFirst(periodMillis: Long): Flow<T> {
     require(periodMillis > 0) { "Period should be a positive value" }

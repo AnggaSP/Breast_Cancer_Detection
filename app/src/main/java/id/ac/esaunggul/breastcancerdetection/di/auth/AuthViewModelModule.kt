@@ -22,14 +22,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
-import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModelFactory
+import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 
 @Module
 abstract class AuthViewModelModule {
 
     @AuthScope
     @Binds
-    abstract fun bindViewModelFactory(authViewModelFactory: AuthViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindAuthViewModelFactory(authViewModelFactory: AuthViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     @IntoMap

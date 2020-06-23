@@ -19,21 +19,21 @@
 
     <!-- Needed for applying insets -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/auth_parent_background"
+        android:id="@+id/auth_parent_background_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
+            android:id="@+id/auth_background_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/auth_image_description"
             android:scaleType="centerCrop"
             android:src="@drawable/im_auth"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </androidx.appcompat.widget.AppCompatImageView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/auth_parent_layout"
@@ -50,10 +50,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/onboarding_title"
-                android:textColor="#eeeeee"
+                android:text="@string/auth_title"
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/auth_descriptions"
+                app:layout_constraintBottom_toTopOf="@id/auth_descriptions"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -64,9 +64,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/onboarding_prompt"
-                android:textColor="#eeeeee"
-                app:layout_constraintBottom_toTopOf="@+id/auth_login_button"
+                android:text="@string/auth_prompt"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toTopOf="@id/auth_login_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -79,9 +79,8 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/button_login"
-                android:textColor="#eeeeee"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/auth_register_button"
+                app:layout_constraintEnd_toStartOf="@id/auth_register_button"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -92,11 +91,10 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/button_register"
-                android:textColor="#eeeeee"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/auth_login_button" />
+                app:layout_constraintStart_toEndOf="@id/auth_login_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,41 +12,70 @@
   or implied. See the License for the specific language governing permissions and limitations under
   the License.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Metadata. -->
     <string name="app_name">Detection</string>
-    <string name="title_home">Beranda</string>
-    <string name="title_consultation">Konsultasi</string>
-    <string name="title_notification">Notifikasi</string>
-    <string name="title_diagnosis">Diagnosa</string>
-    <string name="title_profile">Profil</string>
+    <string name="app_bar_name">Breast Cancer Detection</string>
 
-    <string name="auth_failed">Terdapat kesalahan dalam pemrosesan, silahkan coba beberapa saat lagi</string>
-    <string name="button_login">Masuk</string>
-    <string name="button_register">Registrasi</string>
-    <string name="name_invalid">Nama tidak valid</string>
-    <string name="email_exist">Email telah terdaftar</string>
+    <string name="title_consultation">Consultation</string>
+    <string name="title_diagnosis">Diagnosis</string>
+    <string name="title_home">Home</string>
+    <string name="title_notification">Notification</string>
+    <string name="title_profile">Profile</string>
+
+    <!-- Common Strings. -->
+    <string name="form_prompt">Please fill this form to continue</string>
+    <string name="form_name_hint">Name</string>
+    <string name="form_address_hint">Address</string>
+    <string name="form_history_hint">Medical History</string>
+    <string name="form_date_hint">Date</string>
+    <string name="form_concern_hint">The Concern</string>
+
+    <string name="form_empty">This field is required</string>
+    <string name="form_submitted">Form successfully submitted</string>
+
+    <string name="mtrl_picker_date_header_unselected" tools:override="true">Date</string>
+    <string name="mtrl_picker_text_input_date_hint" tools:override="true">Consultation Date</string>
+
+    <string name="name_invalid">Invalid name</string>
+    <string name="network_failed">An error has occurred, please try again later</string>
+
+    <!-- Authentication Strings. -->
+    <string name="auth_prompt">Login to continue</string>
+    <string name="auth_title">Welcome to Breast Cancer Detection</string>
+
+    <string name="button_login">Login</string>
+    <string name="button_log_out">Log out</string>
+    <string name="button_register">Register</string>
+
+    <string name="email_exist">Email exist</string>
     <string name="email_hint">Email</string>
-    <string name="email_invalid">Email tidak valid</string>
+    <string name="email_invalid">Invalid Email</string>
+
+    <string name="login_title">Log into Breast Cancer Detection</string>
+    <string name="login_email_invalid">Incorrect Email</string>
+    <string name="login_password_invalid">Incorrect password</string>
+
     <string name="password_hint">Password</string>
-    <string name="password_weak">Password terlalu lemah</string>
+    <string name="password_weak">Password too weak</string>
 
-    <string name="consultation_prompt">Mohon untuk melengkapi data berikut ini</string>
-    <string name="consultation_name_hint">Nama</string>
-    <string name="consultation_address_hint">Alamat</string>
-    <string name="consultation_history_hint">Riwayat Penyakit</string>
-    <string name="consultation_date_hint">Tanggal Konsultasi</string>
-    <string name="consultation_concerns_hint">Keluhan Yang di Derita</string>
-    <string name="consultation_button_hint">Konsultasi</string>
+    <string name="register_title">Create an account</string>
+    <string name="register_name_hint">Full name</string>
 
-    <string name="login_title">Masuk ke Deteksi Kanker Payudara</string>
-    <string name="login_email_invalid">Email kurang tepat</string>
-    <string name="login_password_invalid">Password kurang tepat</string>
+    <!-- Image content descriptions for accessibility. -->
+    <string name="article_image_description">Article image</string>
+    <string name="auth_image_description">People in this together image</string>
+    <string name="author_image_description">Author image</string>
+    <string name="diagnosis_image_description">Menu image</string>
+    <string name="navigate_description">Go into this option</string>
+    <string name="notification_image_description">Notification status icon</string>
 
-    <string name="register_title">Buat sebuah akun</string>
-    <string name="register_name_hint">Nama Lengkap</string>
+    <!-- Main Strings. -->
+    <string name="consultation_form_button_hint">Consult</string>
+    <string name="diagnosis_form_button_hint">Schedule Diagnosis</string>
 
-    <string name="notification_description">Ikon status notifikasi</string>
+    <string name="diagnosis_mammography">Mammography</string>
+    <string name="diagnosis_mammography_description">Breast cancer examination using low energy X-rays</string>
 
-    <string name="onboarding_title">Selamat datang di Deteksi Kanker Payudara</string>
-    <string name="onboarding_prompt">Mohon masuk untuk melanjutkan</string>
+    <string name="notification_caught_up">All caught up!</string>
 </resources>

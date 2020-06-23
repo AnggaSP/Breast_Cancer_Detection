@@ -16,11 +16,10 @@
 
 package id.ac.esaunggul.breastcancerdetection.di.app
 
-import android.app.Application
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -35,5 +34,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideGlideInstance(application: Application): RequestManager = Glide.with(application)
+    fun provideDatabaseInstance(): FirebaseFirestore = Firebase.firestore
 }

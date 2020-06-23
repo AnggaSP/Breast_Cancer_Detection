@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.data.model
+package id.ac.esaunggul.breastcancerdetection.di.main
 
-data class User(
-    val id: Int? = null,
-    val name: String? = null,
-    val email: String? = null,
-    val photoUrl: String? = null
+import androidx.lifecycle.ViewModel
+import dagger.MapKey
+import kotlin.reflect.KClass
+
+/**
+ * Map multibindings for the main view model
+ */
+@MustBeDocumented
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
 )
+@Retention(AnnotationRetention.RUNTIME)
+@MapKey
+annotation class MainViewModelKey(val value: KClass<out ViewModel>)

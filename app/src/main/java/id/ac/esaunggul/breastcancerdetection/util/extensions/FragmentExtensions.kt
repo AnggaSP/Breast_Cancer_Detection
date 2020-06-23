@@ -16,26 +16,9 @@
 
 package id.ac.esaunggul.breastcancerdetection.util.extensions
 
-import android.view.View
-import androidx.core.view.ViewCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.google.android.material.transition.platform.MaterialSharedAxis
 
-/**
- * Apply window insets to the top and bottom padding using [ViewCompat] for [View]
- * that are not edge-to-edge aware.
- *
- * Do note that this will consume the padding set in that view.
- * @param view take [View] object and apply the insets to that view.
- */
-fun Fragment.applyInsets(view: View) {
-    ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-        v.updatePadding(top = insets.systemWindowInsets.top)
-        v.updatePadding(bottom = insets.systemWindowInsets.bottom)
-        insets
-    }
-}
 
 /**
  * Helper extensions for setting up the start of shared axis transition.
