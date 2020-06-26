@@ -17,38 +17,26 @@
 package id.ac.esaunggul.breastcancerdetection.ui.main.user.profile
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.github.razir.progressbutton.bindProgressButton
-import com.github.razir.progressbutton.hideProgress
-import com.github.razir.progressbutton.showProgress
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentProfileBinding
-import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
+import id.ac.esaunggul.breastcancerdetection.ui.main.user.UserViewModel
 import id.ac.esaunggul.breastcancerdetection.util.factory.MainViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import reactivecircus.flowbinding.android.view.clicks
+import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {
-
-    companion object {
-        private const val TAG = "Profile"
-    }
 
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
@@ -71,44 +59,28 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val profileViewModel: ProfileViewModel by viewModels {
+        val userViewModel: UserViewModel by navGraphViewModels(R.id.navigation_main) {
             mainViewModelFactory
         }
 
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.profileViewModel = profileViewModel
+        binding.userViewModel = userViewModel
 
-        viewLifecycleOwner.bindProgressButton(binding.profileLogOut)
-
-        binding.profileLogOut.clicks()
-            .throttleFirst(1000)
-            .onEach {
-                profileViewModel.logout()
-            }
-            .launchIn(lifecycleScope)
-
-        profileViewModel.state.observe(viewLifecycleOwner, Observer {
-            when (it) {
+        userViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
                 is ResourceState.Success -> {
                     (requireActivity().application as BreastCancerDetection).releaseMainComponent()
+                    userViewModel.release()
                     findNavController().navigate(ProfileFragmentDirections.actionLogout())
                 }
                 is ResourceState.Error -> {
-                    Log.e(TAG, "Failed to logout")
-                    Log.e(TAG, "Reason: ${it.code}")
+                    Timber.e("Failed to logout")
+                    Timber.e("Reason: ${state.code}")
                     Toast.makeText(requireContext(), R.string.network_failed, Toast.LENGTH_LONG)
                         .show()
-                    binding.profileLogOut.hideProgress(R.string.button_log_out)
-                }
-                is ResourceState.Loading -> {
-                    Log.d(TAG, "Loading...")
-                    binding.profileLogOut.showProgress {
-                        textMarginPx = 0
-                        progressColor = Color.WHITE
-                    }
                 }
             }
         })

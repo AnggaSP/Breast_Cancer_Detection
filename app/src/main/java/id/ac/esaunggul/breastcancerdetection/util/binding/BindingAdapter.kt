@@ -22,9 +22,23 @@ import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputLayout
 import id.ac.esaunggul.breastcancerdetection.R
 import java.util.Date
+
+@BindingAdapter("error")
+fun setError(viewGroup: TextInputLayout, error: MutableLiveData<Int?>) {
+    if (error.value == null) {
+        viewGroup.error = null
+    } else {
+        error.value?.let { resId ->
+            viewGroup.error = viewGroup.context
+                .getString((resId))
+        }
+    }
+}
 
 @BindingAdapter("imageProfile")
 fun bindImageProfile(view: ImageView, url: Uri?) {
@@ -51,6 +65,15 @@ fun bindImageUrl(view: ImageView, url: String?) {
         Glide.with(view.context)
             .load(R.drawable.im_placeholder)
             .into(view)
+    }
+}
+
+@BindingAdapter("focus")
+fun setFocus(view: TextView, focus: Boolean) {
+    if (focus) {
+        view.requestFocus()
+    } else {
+        view.clearFocus()
     }
 }
 

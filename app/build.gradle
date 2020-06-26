@@ -15,6 +15,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.0"
 
+    applicationVariants.all {
+        def lintTask = tasks["lint${name.capitalize()}"]
+        assembleProvider.get().dependsOn lintTask
+    }
+
     buildFeatures {
         dataBinding = true
     }
@@ -25,6 +30,13 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+    }
+
+    lintOptions {
+        lintConfig file('../lint.xml')
+        checkAllWarnings true
+        checkDependencies true
+        warningsAsErrors true
     }
 
     if (keystorePropertiesFile.exists()) {
@@ -78,6 +90,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_ktx_version"
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation "androidx.transition:transition:$transition_version"
+    implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.github.florent37:shapeofview:$shapeofview_version"
     implementation "com.github.razir.progressbutton:progressbutton:$progressbutton_version"
@@ -87,8 +100,6 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
     implementation "com.google.firebase:firebase-firestore-ktx"
-    implementation "io.github.reactivecircus.flowbinding:flowbinding-android:$flowbinding_version"
-    implementation "io.github.reactivecircus.flowbinding:flowbinding-material:$flowbinding_version"
     implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$keyboard_visibility_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"

@@ -48,9 +48,7 @@ constructor(
 
     private fun getArticles() {
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepo.fetchArticles().collect { value ->
-                _articles.postValue(value)
-            }
+            mainRepo.fetchArticles().collect { data -> _articles.postValue(data) }
         }
     }
 

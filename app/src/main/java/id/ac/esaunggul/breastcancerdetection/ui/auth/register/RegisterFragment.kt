@@ -19,16 +19,14 @@ package id.ac.esaunggul.breastcancerdetection.ui.auth.register
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
@@ -38,23 +36,19 @@ import id.ac.esaunggul.breastcancerdetection.databinding.FragmentRegisterBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.endSharedAxisTransition
-import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
 import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
-import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import reactivecircus.flowbinding.android.view.clicks
+import timber.log.Timber
 import javax.inject.Inject
 
 class RegisterFragment : Fragment() {
 
-    companion object {
-        private const val TAG = "Register"
-    }
-
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
+
+    private val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
+        authViewModelFactory
+    }
 
     override fun onAttach(context: Context) {
         (requireActivity().application as BreastCancerDetection).authComponent().inject(this)
@@ -73,88 +67,59 @@ class RegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val authViewModel: AuthViewModel by viewModels {
-            authViewModelFactory
-        }
-
         val binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.authViewModel = authViewModel
 
         applyInsets(binding.registerParentLayout)
 
         viewLifecycleOwner.bindProgressButton(binding.registerButton)
 
-        binding.registerButton.clicks()
-            .throttleFirst(1000)
-            .onEach {
-                binding.registerNameLayout.error = null
-                binding.registerEmailLayout.error = null
-                binding.registerPasswordLayout.error = null
-                when {
-                    FormValidation.isNameNotValid(binding.registerNameField.text.toString()) -> {
-                        binding.registerNameLayout.error = getString(R.string.name_invalid)
-                        binding.registerNameField.requestFocus()
-                    }
-                    FormValidation.isEmailNotValid(binding.registerEmailField.text.toString()) -> {
-                        binding.registerEmailLayout.error = getString(R.string.email_invalid)
-                        binding.registerEmailField.requestFocus()
-                    }
-                    FormValidation.isPasswordWeak(binding.registerPasswordField.text.toString()) -> {
-                        binding.registerPasswordLayout.error = getString(R.string.password_weak)
-                        binding.registerPasswordField.requestFocus()
-                    }
-                    else -> {
-                        authViewModel.register(
-                            binding.registerNameField.text.toString(),
-                            binding.registerEmailField.text.toString(),
-                            binding.registerPasswordField.text.toString()
-                        )
-                    }
-                }
-            }
-            .launchIn(lifecycleScope)
-
-        authViewModel.authState.observe(viewLifecycleOwner, Observer {
-            when (it) {
+        authViewModel.authState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
                 AuthState.AUTHENTICATED -> {
                     (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
                     findNavController().navigate(RegisterFragmentDirections.actionRegisterAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {
                     binding.registerButton.hideProgress(R.string.button_register)
+                    binding.registerButton.isClickable = true
                 }
                 AuthState.LOADING -> {
-                    Log.d(TAG, "Loading the data...")
-                    binding.registerNameField.clearFocus()
-                    binding.registerEmailField.clearFocus()
-                    binding.registerPasswordField.clearFocus()
+                    Timber.d("Loading the data...")
+                    binding.registerButton.isClickable = false
                     binding.registerButton.showProgress {
                         textMarginPx = 0
                         progressColor = Color.WHITE
                     }
                 }
                 AuthState.COLLIDE -> {
-                    binding.registerEmailLayout.error = getString(R.string.email_exist)
-                    binding.registerEmailField.requestFocus()
+                    authViewModel.emailError.value = R.string.email_exist
                 }
                 AuthState.WEAK -> {
-                    Log.d(TAG, "Weak password is being passed.")
-                    Log.d(TAG, "Please check if the validation is doing its job.")
-                    binding.registerPasswordLayout.error = getString(R.string.password_weak)
-                    binding.registerPasswordField.requestFocus()
+                    Timber.d("Weak password is being passed.")
+                    Timber.d("Please check if the validation is doing its job.")
+                    authViewModel.passwordError.value = R.string.password_weak
                 }
                 AuthState.ERROR -> {
-                    Log.e(TAG, "A network error has occurred.")
+                    Timber.e("An error has occurred.")
                     Toast.makeText(requireActivity(), R.string.network_failed, Toast.LENGTH_LONG)
                         .show()
                 }
                 else -> {
-                    Log.e(TAG, "Catastrophic error happened.")
+                    Timber.e("Catastrophic error happened.")
                 }
             }
         })
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        authViewModel.release()
     }
 }

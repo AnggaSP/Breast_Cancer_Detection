@@ -23,8 +23,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
 import id.ac.esaunggul.breastcancerdetection.R
@@ -37,13 +37,11 @@ class HomeArticleDetailFragment : Fragment() {
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
 
-    private val homeArticleViewModel: HomeArticleViewModel by viewModels {
+    private val homeArticleViewModel: HomeArticleViewModel by navGraphViewModels(R.id.navigation_main) {
         mainViewModelFactory
     }
 
     private val args: HomeArticleDetailFragmentArgs by navArgs()
-
-    private lateinit var binding: FragmentHomeArticleDetailBinding
 
     override fun onAttach(context: Context) {
         (requireActivity().application as BreastCancerDetection).mainComponent().inject(this)
@@ -72,28 +70,24 @@ class HomeArticleDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeArticleDetailBinding.inflate(inflater, container, false)
+        val binding = FragmentHomeArticleDetailBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.articleViewModel = homeArticleViewModel
         binding.position = args.position
-
-        return binding.root
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        homeArticleViewModel.releaseHold()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         postponeEnterTransition()
         binding.articleDetailParentLayout.transitionName =
             "shared_article_container_transition_${args.position}"
         startPostponedEnterTransition()
+
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        homeArticleViewModel.releaseHold()
     }
 }

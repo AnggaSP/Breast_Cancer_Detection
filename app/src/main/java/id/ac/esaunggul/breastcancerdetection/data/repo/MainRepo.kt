@@ -46,21 +46,21 @@ constructor(
 
         val fetch = database.collection("articles").get().await()
 
-        emit(ResourceState.Success<List<ArticleModel>>(fetch.toObjects(ArticleModel::class.java)))
-    }.catch { e ->
-        emit(ResourceState.Error(e.message))
+        emit(ResourceState.Success(fetch.toObjects(ArticleModel::class.java)))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
 
     fun fetchUserData() = flow {
         emit(ResourceState.Loading<UserModel>())
 
         val user = auth.currentUser
-        user?.let {
-            val userData = UserModel(it.uid, it.displayName, it.email, it.photoUrl)
+        user?.let { data ->
+            val userData = UserModel(data.uid, data.displayName, data.email, data.photoUrl)
             emit(ResourceState.Success(userData))
         }
-    }.catch { e ->
-        emit(ResourceState.Error(e.message))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
 
     fun saveConsultationInformation(
@@ -74,32 +74,24 @@ constructor(
 
         val dateConverter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val dateConverted: Date?
-        dateConverted = if (date != null) {
-            dateConverter.parse(date)
-        } else {
-            Date()
-        }
+        dateConverted = date?.let { dateConverter.parse(it) } ?: Date()
 
-        if (dateConverted != null) {
-            val information = hashMapOf(
-                "uid" to auth.currentUser?.uid,
-                "name" to name,
-                "address" to address,
-                "history" to history,
-                "date" to Timestamp(dateConverted),
-                "concern" to concern
-            )
+        val information = hashMapOf(
+            "uid" to auth.currentUser?.uid,
+            "name" to name,
+            "address" to address,
+            "history" to history,
+            "date" to Timestamp(dateConverted),
+            "concern" to concern
+        )
 
-            database.collection("consultations")
-                .add(information)
-                .await()
+        database.collection("consultations")
+            .add(information)
+            .await()
 
-            emit(ResourceState.Success(null))
-        } else {
-            emit(ResourceState.Error("Date is null"))
-        }
-    }.catch {
-        emit(ResourceState.Error(it.message))
+        emit(ResourceState.Success(null))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
 
     fun saveDiagnosisInformation(
@@ -112,31 +104,23 @@ constructor(
 
         val dateConverter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val dateConverted: Date?
-        dateConverted = if (date != null) {
-            dateConverter.parse(date)
-        } else {
-            Date()
-        }
+        dateConverted = date?.let { dateConverter.parse(it) } ?: Date()
 
-        if (dateConverted != null) {
-            val information = hashMapOf(
-                "uid" to auth.currentUser?.uid,
-                "name" to name,
-                "address" to address,
-                "history" to history,
-                "date" to Timestamp(dateConverted)
-            )
+        val information = hashMapOf(
+            "uid" to auth.currentUser?.uid,
+            "name" to name,
+            "address" to address,
+            "history" to history,
+            "date" to Timestamp(dateConverted)
+        )
 
-            database.collection("diagnosis")
-                .add(information)
-                .await()
+        database.collection("diagnosis")
+            .add(information)
+            .await()
 
-            emit(ResourceState.Success(null))
-        } else {
-            emit(ResourceState.Error("Date is null"))
-        }
-    }.catch {
-        emit(ResourceState.Error(it.message))
+        emit(ResourceState.Success(null))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
 
     fun logout() = flow {
@@ -145,7 +129,7 @@ constructor(
         auth.signOut()
 
         emit(ResourceState.Success(null))
-    }.catch {
-        emit(ResourceState.Error(it.message))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
 }

@@ -57,6 +57,8 @@
     <string name="login_password_invalid">Password kurang tepat</string>
 
     <string name="password_hint">Password</string>
+    <string name="password_confirm_hint">Konfirmasi Password</string>
+    <string name="password_not_matched">Password tidak cocok</string>
     <string name="password_weak">Password terlalu lemah</string>
 
     <string name="register_title">Buat sebuah akun</string>

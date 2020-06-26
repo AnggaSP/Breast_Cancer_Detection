@@ -20,8 +20,12 @@
     <data>
 
         <variable
-            name="consultationViewModel"
-            type="id.ac.esaunggul.breastcancerdetection.ui.main.user.consultation.ConsultationViewModel" />
+            name="handler"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.user.consultation.ConsultationFragment" />
+
+        <variable
+            name="userViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.user.UserViewModel" />
 
     </data>
 
@@ -59,6 +63,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 app:boxBackgroundColor="@android:color/transparent"
+                app:error="@{userViewModel.nameError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/consultation_title">
@@ -68,7 +73,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_name_hint"
-                    android:text="@={consultationViewModel.name}" />
+                    android:text="@={userViewModel.nameField}"
+                    app:focus="@{userViewModel.nameFieldFocus}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -80,6 +86,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 app:boxBackgroundColor="@android:color/transparent"
+                app:error="@{userViewModel.addressError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/consultation_name_layout">
@@ -89,7 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_address_hint"
-                    android:text="@={consultationViewModel.address}" />
+                    android:text="@={userViewModel.addressField}"
+                    app:focus="@{userViewModel.addressFieldFocus}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -101,6 +109,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 app:boxBackgroundColor="@android:color/transparent"
+                app:error="@{userViewModel.historyError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/consultation_address_layout">
@@ -110,7 +119,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_history_hint"
-                    android:text="@={consultationViewModel.history}" />
+                    android:text="@={userViewModel.historyField}"
+                    app:focus="@{userViewModel.historyFieldFocus}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -122,6 +132,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 app:boxBackgroundColor="@android:color/transparent"
+                app:error="@{userViewModel.dateError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/consultation_history_layout">
@@ -133,7 +144,9 @@
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="@string/form_date_hint"
-                    android:text="@={consultationViewModel.date}" />
+                    android:onClick="@{() -> handler.showDatePicker()}"
+                    android:text="@={userViewModel.dateField}"
+                    app:focus="@{userViewModel.dateFieldFocus}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -145,6 +158,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 app:boxBackgroundColor="@android:color/transparent"
+                app:error="@{userViewModel.concernError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/consultation_date_layout">
@@ -154,7 +168,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_concern_hint"
-                    android:text="@={consultationViewModel.concern}" />
+                    android:text="@={userViewModel.concernField}"
+                    app:focus="@{userViewModel.concernFieldFocus}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -164,6 +179,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:onClick="@{() -> userViewModel.saveConsultInfo()}"
                 android:text="@string/consultation_form_button_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

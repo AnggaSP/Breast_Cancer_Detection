@@ -40,7 +40,7 @@ class NotificationFragment : Fragment() {
     ): View? {
         val binding = FragmentNotificationBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }

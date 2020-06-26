@@ -18,32 +18,25 @@ package id.ac.esaunggul.breastcancerdetection.ui.auth
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
+import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.startSharedAxisTransition
 import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import reactivecircus.flowbinding.android.view.clicks
+import timber.log.Timber
 import javax.inject.Inject
 
 class AuthFragment : Fragment() {
-
-    companion object {
-        private const val TAG = "Auth"
-    }
 
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
@@ -67,41 +60,29 @@ class AuthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val authViewModel: AuthViewModel by viewModels {
+        val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
             authViewModelFactory
         }
 
         val binding = FragmentAuthBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.direction = AuthFragmentDirections
 
         applyInsets(binding.authParentLayout)
 
-        binding.authLoginButton.clicks()
-            .onEach {
-                findNavController().navigate(AuthFragmentDirections.actionAuthToLogin())
-            }
-            .launchIn(lifecycleScope)
-        binding.authRegisterButton.clicks()
-            .onEach {
-                findNavController().navigate(AuthFragmentDirections.actionAuthToRegister())
-            }
-            .launchIn(lifecycleScope)
-
-        authViewModel.authState.observe(viewLifecycleOwner, Observer {
-            when (it) {
+        authViewModel.authState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
                 AuthState.AUTHENTICATED -> {
-                    Log.d(TAG, "User has logged in, continuing the session.")
+                    Timber.d("User has logged in, continuing the session.")
                     (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
                     findNavController().navigate(AuthFragmentDirections.actionUserAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {
-                    Log.d(
-                        TAG,
-                        "No user session has been found, showing the auth screen."
-                    )
+                    Timber.d("No user session has been found, showing the auth screen.")
                 }
-                else -> Log.e(TAG, "Catastrophic error happened.")
+                else -> Timber.e("Catastrophic error happened.")
             }
         })
 

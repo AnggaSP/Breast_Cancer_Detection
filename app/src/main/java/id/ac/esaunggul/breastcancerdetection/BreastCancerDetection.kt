@@ -21,6 +21,7 @@ import id.ac.esaunggul.breastcancerdetection.di.app.AppComponent
 import id.ac.esaunggul.breastcancerdetection.di.app.DaggerAppComponent
 import id.ac.esaunggul.breastcancerdetection.di.auth.AuthComponent
 import id.ac.esaunggul.breastcancerdetection.di.main.MainComponent
+import timber.log.Timber
 
 class BreastCancerDetection : Application() {
 
@@ -51,5 +52,13 @@ class BreastCancerDetection : Application() {
 
     fun releaseMainComponent() {
         mainComponent = null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }

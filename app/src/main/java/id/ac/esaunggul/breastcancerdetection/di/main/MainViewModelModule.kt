@@ -21,10 +21,8 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import id.ac.esaunggul.breastcancerdetection.ui.main.user.consultation.ConsultationViewModel
-import id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis.DiagnosisViewModel
+import id.ac.esaunggul.breastcancerdetection.ui.main.user.UserViewModel
 import id.ac.esaunggul.breastcancerdetection.ui.main.user.home.HomeArticleViewModel
-import id.ac.esaunggul.breastcancerdetection.ui.main.user.profile.ProfileViewModel
 import id.ac.esaunggul.breastcancerdetection.util.factory.MainViewModelFactory
 
 @Module
@@ -36,21 +34,11 @@ abstract class MainViewModelModule {
 
     @Binds
     @IntoMap
-    @MainViewModelKey(ConsultationViewModel::class)
-    abstract fun bindConsultationViewModel(consultationViewModel: ConsultationViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @MainViewModelKey(DiagnosisViewModel::class)
-    abstract fun bindDiagnosisViewModel(diagnosisViewModel: DiagnosisViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @MainViewModelKey(HomeArticleViewModel::class)
     abstract fun bindHomeArticleViewModel(homeArticleViewModel: HomeArticleViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @MainViewModelKey(ProfileViewModel::class)
-    abstract fun bindUserViewModel(profileViewModel: ProfileViewModel): ViewModel
+    @MainViewModelKey(UserViewModel::class)
+    abstract fun bindUserViewModel(userViewModel: UserViewModel): ViewModel
 }

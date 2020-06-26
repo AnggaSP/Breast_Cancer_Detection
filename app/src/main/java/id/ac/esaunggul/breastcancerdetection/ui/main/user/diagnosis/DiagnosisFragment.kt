@@ -21,13 +21,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentDiagnosisBinding
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import reactivecircus.flowbinding.android.view.clicks
 
 class DiagnosisFragment : Fragment() {
 
@@ -45,13 +40,9 @@ class DiagnosisFragment : Fragment() {
     ): View? {
         val binding = FragmentDiagnosisBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.diagnosisCardView.clicks()
-            .onEach {
-                findNavController().navigate(DiagnosisFragmentDirections.actionDiagnosisToForm())
-            }
-            .launchIn(lifecycleScope)
+        binding.direction = DiagnosisFragmentDirections
 
         return binding.root
     }

@@ -36,7 +36,7 @@ class CommonActivity : AppCompatActivity() {
     /*
      * Keep track of the authentication state as we need it to fend of the keyboard listener.
      */
-    private var hasLogin = false
+    internal var hasLogin = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)

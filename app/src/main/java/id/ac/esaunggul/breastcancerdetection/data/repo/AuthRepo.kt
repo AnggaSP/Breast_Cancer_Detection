@@ -47,12 +47,17 @@ constructor(
         }
     }
 
-    fun login(email: String, password: String) = flow {
+    fun login(email: String?, password: String?) = flow {
         emit(AuthState.LOADING)
 
-        auth.signInWithEmailAndPassword(email, password).await()
-
-        emit(AuthState.AUTHENTICATED)
+        if (email != null && password != null) {
+            auth.signInWithEmailAndPassword(email, password).await()
+            emit(AuthState.AUTHENTICATED)
+        } else {
+            emit(AuthState.INVALID)
+            delay(64) // Wait for a bit so livedata can react accordingly
+            emit(AuthState.UNAUTHENTICATED)
+        }
     }.catch { e ->
         when (e) {
             is FirebaseAuthEmailException -> {
@@ -83,10 +88,12 @@ constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    fun register(name: String, email: String, password: String) = flow {
+    fun register(name: String?, email: String?, password: String?) = flow {
         emit(AuthState.LOADING)
 
-        auth.createUserWithEmailAndPassword(email, password).await()
+        if (email != null && password != null) {
+            auth.createUserWithEmailAndPassword(email, password).await()
+        }
         auth.currentUser?.updateProfile(userProfileChangeRequest {
             displayName = name
         })

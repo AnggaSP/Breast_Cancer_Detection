@@ -19,16 +19,14 @@ package id.ac.esaunggul.breastcancerdetection.ui.auth.login
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
@@ -38,23 +36,19 @@ import id.ac.esaunggul.breastcancerdetection.databinding.FragmentLoginBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.endSharedAxisTransition
-import id.ac.esaunggul.breastcancerdetection.util.extensions.throttleFirst
 import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
-import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import reactivecircus.flowbinding.android.view.clicks
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginFragment : Fragment() {
 
-    companion object {
-        private const val TAG = "Login"
-    }
-
     @Inject
     lateinit var authViewModelFactory: AuthViewModelFactory
+
+    private val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
+        authViewModelFactory
+    }
 
     override fun onAttach(context: Context) {
         (requireActivity().application as BreastCancerDetection).authComponent().inject(this)
@@ -73,77 +67,56 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val authViewModel: AuthViewModel by viewModels {
-            authViewModelFactory
-        }
-
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.authViewModel = authViewModel
 
         applyInsets(binding.loginParentLayout)
 
         viewLifecycleOwner.bindProgressButton(binding.loginButton)
 
-        binding.loginButton.clicks()
-            .throttleFirst(1000)
-            .onEach {
-                binding.loginEmailLayout.error = null
-                binding.loginPasswordLayout.error = null
-                when {
-                    FormValidation.isEmailNotValid(binding.loginEmailField.text.toString()) -> {
-                        binding.loginEmailLayout.error = getString(R.string.email_invalid)
-                        binding.loginEmailField.requestFocus()
-                    }
-                    FormValidation.isPasswordWeak(binding.loginPasswordField.text.toString()) -> {
-                        binding.loginPasswordLayout.error = getString(R.string.password_weak)
-                        binding.loginPasswordField.requestFocus()
-                    }
-                    else -> {
-                        authViewModel.login(
-                            binding.loginEmailField.text.toString(),
-                            binding.loginPasswordField.text.toString()
-                        )
-                    }
-                }
-            }
-            .launchIn(lifecycleScope)
-
-        authViewModel.authState.observe(viewLifecycleOwner, Observer {
-            when (it) {
+        authViewModel.authState.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
                 AuthState.AUTHENTICATED -> {
                     (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
                     findNavController().navigate(LoginFragmentDirections.actionLoginAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {
                     binding.loginButton.hideProgress(R.string.button_login)
+                    binding.loginButton.isClickable = true
                 }
                 AuthState.LOADING -> {
-                    Log.d(TAG, "Loading the data...")
-                    binding.loginEmailField.clearFocus()
-                    binding.loginPasswordField.clearFocus()
+                    Timber.d("Loading the data...")
+                    binding.loginButton.isClickable = false
                     binding.loginButton.showProgress {
                         textMarginPx = 0
                         progressColor = Color.WHITE
                     }
                 }
                 AuthState.INVALID -> {
-                    Log.d(TAG, "Authentication failed.")
-                    binding.loginEmailLayout.error = getString(R.string.login_email_invalid)
-                    binding.loginPasswordLayout.error = getString(R.string.login_password_invalid)
-                    binding.loginEmailField.requestFocus()
+                    Timber.d("Authentication failed.")
+                    authViewModel.emailError.value = R.string.login_email_invalid
+                    authViewModel.passwordError.value = R.string.login_password_invalid
                 }
                 AuthState.ERROR -> {
-                    Log.e(TAG, "A network error has occurred.")
+                    Timber.e("An error has occurred.")
                     Toast.makeText(requireActivity(), R.string.network_failed, Toast.LENGTH_LONG)
                         .show()
                 }
                 else -> {
-                    Log.e(TAG, "Catastrophic error happened.")
+                    Timber.e("Catastrophic error happened.")
                 }
             }
         })
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        authViewModel.release()
     }
 }

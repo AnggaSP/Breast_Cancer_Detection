@@ -18,36 +18,33 @@ package id.ac.esaunggul.breastcancerdetection.ui.main.user.home
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.Hold
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
+import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentHomeBinding
 import id.ac.esaunggul.breastcancerdetection.util.binding.ClickListener
 import id.ac.esaunggul.breastcancerdetection.util.factory.MainViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeFragment : Fragment(), ClickListener {
 
-    companion object {
-        private const val TAG = "Home"
-    }
-
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
 
-    private val homeArticleViewModel: HomeArticleViewModel by viewModels {
+    private val homeArticleViewModel: HomeArticleViewModel by navGraphViewModels(R.id.navigation_main) {
         mainViewModelFactory
     }
 
@@ -71,7 +68,7 @@ class HomeFragment : Fragment(), ClickListener {
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val adapter = HomeArticleCardAdapter(this)
 
@@ -79,23 +76,23 @@ class HomeFragment : Fragment(), ClickListener {
         binding.homeRecyclerView.setLayoutManager(LinearLayoutManager(requireActivity()))
         binding.homeRecyclerView.addVeiledItems(2)
 
-        homeArticleViewModel.articles.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                is ResourceState.Error -> Log.d(TAG, "An error occurred: ${it.code}")
+        homeArticleViewModel.articles.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is ResourceState.Error -> Timber.e("An error occurred: ${state.code}")
                 is ResourceState.Success -> {
-                    Log.d(TAG, "Successfully fetched the resources")
+                    Timber.d("Successfully fetched the resources")
                     postponeEnterTransition()
-                    adapter.submitList(it.data)
+                    adapter.submitList(state.data)
                     binding.homeRecyclerView.unVeil()
                 }
                 is ResourceState.Loading -> {
-                    Log.d(TAG, "Fetching the resources")
+                    Timber.d("Fetching the resources")
                 }
             }
         })
 
-        homeArticleViewModel.shouldHold.observe(viewLifecycleOwner, Observer {
-            exitTransition = when (it) {
+        homeArticleViewModel.shouldHold.observe(viewLifecycleOwner, Observer { hold ->
+            exitTransition = when (hold) {
                 true -> Hold()
                 else -> MaterialFadeThrough()
             }

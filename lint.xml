@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+
+    <issue id="DuplicateStrings, ObsoleteLintCustomCheck" severity="ignore" />
+
+    <issue id="GradleDependency">
+        <ignore regexp="is available: .*[alpha]" />
+    </issue>
+
+    <issue id="SelectableText">
+        <ignore path="**/layout/fragment_home_article_card.xml"/>
+    </issue>
+
+</lint>

@@ -51,13 +51,13 @@ class HomeArticleCardAdapter(
         fun bind(article: ArticleModel) {
             binding.article = article
             binding.articleCardView.transitionName =
-                "shared_article_container_transition_$absoluteAdapterPosition"
+                "shared_article_container_transition_$adapterPosition"
             binding.executePendingBindings()
         }
 
         override fun onClick(v: View?) {
             clickListener.onClick(
-                absoluteAdapterPosition,
+                adapterPosition,
                 binding.articleCardView
             )
         }
