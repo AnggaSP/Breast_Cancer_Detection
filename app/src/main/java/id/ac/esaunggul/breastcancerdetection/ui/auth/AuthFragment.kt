@@ -16,7 +16,6 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.auth
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,26 +25,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
+import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.startSharedAxisTransition
-import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import timber.log.Timber
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class AuthFragment : Fragment() {
-
-    @Inject
-    lateinit var authViewModelFactory: AuthViewModelFactory
-
-    override fun onAttach(context: Context) {
-        (requireActivity().application as BreastCancerDetection).authComponent().inject(this)
-
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +50,7 @@ class AuthFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
-            authViewModelFactory
+            defaultViewModelProviderFactory
         }
 
         val binding = FragmentAuthBinding.inflate(inflater, container, false)
@@ -76,7 +65,6 @@ class AuthFragment : Fragment() {
             when (state) {
                 AuthState.AUTHENTICATED -> {
                     Timber.d("User has logged in, continuing the session.")
-                    (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
                     findNavController().navigate(AuthFragmentDirections.actionUserAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {

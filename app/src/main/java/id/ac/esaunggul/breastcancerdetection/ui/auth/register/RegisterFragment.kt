@@ -16,7 +16,6 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.auth.register
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,30 +29,20 @@ import androidx.navigation.navGraphViewModels
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
-import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
+import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentRegisterBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.endSharedAxisTransition
-import id.ac.esaunggul.breastcancerdetection.util.factory.AuthViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import timber.log.Timber
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
-    @Inject
-    lateinit var authViewModelFactory: AuthViewModelFactory
-
     private val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
-        authViewModelFactory
-    }
-
-    override fun onAttach(context: Context) {
-        (requireActivity().application as BreastCancerDetection).authComponent().inject(this)
-
-        super.onAttach(context)
+        defaultViewModelProviderFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +69,6 @@ class RegisterFragment : Fragment() {
         authViewModel.authState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 AuthState.AUTHENTICATED -> {
-                    (requireActivity().application as BreastCancerDetection).releaseAuthComponent()
                     findNavController().navigate(RegisterFragmentDirections.actionRegisterAuthenticated())
                 }
                 AuthState.UNAUTHENTICATED -> {

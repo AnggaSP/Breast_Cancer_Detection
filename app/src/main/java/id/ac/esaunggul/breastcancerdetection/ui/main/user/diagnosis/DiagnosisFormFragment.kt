@@ -16,7 +16,6 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,33 +28,20 @@ import androidx.navigation.navGraphViewModels
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
+import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentDiagnosisFormBinding
+import id.ac.esaunggul.breastcancerdetection.ui.common.CommonDatePicker
 import id.ac.esaunggul.breastcancerdetection.ui.main.user.UserViewModel
-import id.ac.esaunggul.breastcancerdetection.util.factory.MainViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
 import timber.log.Timber
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class DiagnosisFormFragment : Fragment() {
 
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
-
-    @Inject
-    lateinit var picker: MaterialDatePicker<Long>
-
     private val userViewModel: UserViewModel by navGraphViewModels(R.id.navigation_main) {
-        mainViewModelFactory
-    }
-
-    override fun onAttach(context: Context) {
-        (requireActivity().application as BreastCancerDetection).mainComponent().inject(this)
-
-        super.onAttach(context)
+        defaultViewModelProviderFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,6 +103,7 @@ class DiagnosisFormFragment : Fragment() {
     }
 
     fun showDatePicker() {
+        val picker = CommonDatePicker().build(title = R.string.form_date_hint)
         picker.show(parentFragmentManager, picker.toString())
         picker.addOnPositiveButtonClickListener {
             userViewModel.dateField.value = picker.headerText

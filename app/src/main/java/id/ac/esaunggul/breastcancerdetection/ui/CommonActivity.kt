@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.ActivityCommonBinding
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
@@ -31,6 +32,7 @@ import id.ac.esaunggul.breastcancerdetection.util.extensions.removeInsets
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
+@AndroidEntryPoint
 class CommonActivity : AppCompatActivity() {
 
     /*

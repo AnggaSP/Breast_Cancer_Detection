@@ -17,42 +17,11 @@
 package id.ac.esaunggul.breastcancerdetection
 
 import android.app.Application
-import id.ac.esaunggul.breastcancerdetection.di.app.AppComponent
-import id.ac.esaunggul.breastcancerdetection.di.app.DaggerAppComponent
-import id.ac.esaunggul.breastcancerdetection.di.auth.AuthComponent
-import id.ac.esaunggul.breastcancerdetection.di.main.MainComponent
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class BreastCancerDetection : Application() {
-
-    private val appComponent: AppComponent = DaggerAppComponent
-        .factory()
-        .create(this)
-
-    private var authComponent: AuthComponent? = null
-    private var mainComponent: MainComponent? = null
-
-    fun authComponent(): AuthComponent {
-        if (authComponent == null) {
-            authComponent = appComponent.authComponent().create()
-        }
-        return authComponent as AuthComponent
-    }
-
-    fun releaseAuthComponent() {
-        authComponent = null
-    }
-
-    fun mainComponent(): MainComponent {
-        if (mainComponent == null) {
-            mainComponent = appComponent.mainComponent().create()
-        }
-        return mainComponent as MainComponent
-    }
-
-    fun releaseMainComponent() {
-        mainComponent = null
-    }
 
     override fun onCreate() {
         super.onCreate()

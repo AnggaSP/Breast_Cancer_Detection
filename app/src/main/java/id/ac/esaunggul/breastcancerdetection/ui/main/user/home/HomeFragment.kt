@@ -16,7 +16,6 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.main.user.home
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,28 +29,18 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.transition.platform.Hold
 import com.google.android.material.transition.platform.MaterialFadeThrough
-import id.ac.esaunggul.breastcancerdetection.BreastCancerDetection
+import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentHomeBinding
 import id.ac.esaunggul.breastcancerdetection.util.binding.ClickListener
-import id.ac.esaunggul.breastcancerdetection.util.factory.MainViewModelFactory
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
 import timber.log.Timber
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(), ClickListener {
 
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModelFactory
-
     private val homeArticleViewModel: HomeArticleViewModel by navGraphViewModels(R.id.navigation_main) {
-        mainViewModelFactory
-    }
-
-    override fun onAttach(context: Context) {
-        (requireActivity().application as BreastCancerDetection).mainComponent().inject(this)
-
-        super.onAttach(context)
+        defaultViewModelProviderFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

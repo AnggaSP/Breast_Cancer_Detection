@@ -16,24 +16,22 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.main.user.home
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.ac.esaunggul.breastcancerdetection.data.model.ArticleModel
-import id.ac.esaunggul.breastcancerdetection.data.repo.MainRepo
-import id.ac.esaunggul.breastcancerdetection.di.main.MainScope
+import id.ac.esaunggul.breastcancerdetection.data.repo.Repo
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@MainScope
 class HomeArticleViewModel
-@Inject
+@ViewModelInject
 constructor(
-    private val mainRepo: MainRepo
+    private val repo: Repo
 ) : ViewModel() {
 
     private val _articles = MutableLiveData<ResourceState<List<ArticleModel>>>()
@@ -48,7 +46,7 @@ constructor(
 
     private fun getArticles() {
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepo.fetchArticles().collect { data -> _articles.postValue(data) }
+            repo.fetchArticles().collect { data -> _articles.postValue(data) }
         }
     }
 

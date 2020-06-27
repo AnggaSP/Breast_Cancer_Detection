@@ -16,25 +16,23 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.auth
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.ac.esaunggul.breastcancerdetection.R
-import id.ac.esaunggul.breastcancerdetection.data.repo.AuthRepo
-import id.ac.esaunggul.breastcancerdetection.di.auth.AuthScope
+import id.ac.esaunggul.breastcancerdetection.data.repo.Repo
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@AuthScope
 class AuthViewModel
-@Inject
+@ViewModelInject
 constructor(
-    private val authRepo: AuthRepo
+    private val repo: Repo
 ) : ViewModel() {
 
     private val _authState = MutableLiveData<AuthState>()
@@ -55,7 +53,7 @@ constructor(
     val passwordConfirmFieldFocus = MutableLiveData<Boolean>(false)
 
     init {
-        _authState.value = authRepo.checkSession()
+        _authState.value = repo.checkSession()
     }
 
     fun login() {
@@ -63,7 +61,7 @@ constructor(
         releaseFocus()
         if (commonValidation()) {
             viewModelScope.launch(Dispatchers.IO) {
-                authRepo.login(emailField.value, passwordField.value)
+                repo.login(emailField.value, passwordField.value)
                     .collect { state -> _authState.postValue(state) }
             }
         }
@@ -88,7 +86,7 @@ constructor(
             }
             else -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    authRepo.register(nameField.value, emailField.value, passwordField.value)
+                    repo.register(nameField.value, emailField.value, passwordField.value)
                         .collect { state -> _authState.postValue(state) }
                 }
             }

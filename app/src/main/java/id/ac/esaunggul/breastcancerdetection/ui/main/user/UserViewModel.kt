@@ -16,27 +16,25 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.main.user
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.data.model.UserModel
-import id.ac.esaunggul.breastcancerdetection.data.repo.MainRepo
-import id.ac.esaunggul.breastcancerdetection.di.main.MainScope
+import id.ac.esaunggul.breastcancerdetection.data.repo.Repo
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
-@MainScope
 class UserViewModel
-@Inject
+@ViewModelInject
 constructor(
-    private val mainRepo: MainRepo
+    private val repo: Repo
 ) : ViewModel() {
 
     private val _profile = MutableLiveData<UserModel>()
@@ -69,7 +67,7 @@ constructor(
 
     private fun fetchUser() {
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepo.fetchUserData().collect { state ->
+            repo.fetchUserData().collect { state ->
                 when (state) {
                     is ResourceState.Success -> state.data?.let { data -> _profile.postValue(data) }
                     is ResourceState.Error -> {
@@ -94,7 +92,7 @@ constructor(
             }
             else -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    mainRepo.saveConsultationInformation(
+                    repo.saveConsultationInformation(
                         nameField.value,
                         addressField.value,
                         historyField.value,
@@ -113,7 +111,7 @@ constructor(
         releaseFocus()
         if (commonValidation()) {
             viewModelScope.launch(Dispatchers.IO) {
-                mainRepo.saveDiagnosisInformation(
+                repo.saveDiagnosisInformation(
                     nameField.value,
                     addressField.value,
                     historyField.value,
@@ -127,7 +125,7 @@ constructor(
 
     fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
-            mainRepo.logout().collect { state ->
+            repo.logout().collect { state ->
                 _state.postValue(state)
             }
         }

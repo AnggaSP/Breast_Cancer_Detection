@@ -14,33 +14,36 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.di.main
+package id.ac.esaunggul.breastcancerdetection.ui.common
 
+import androidx.annotation.StringRes
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.CompositeDateValidator
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import dagger.Module
-import dagger.Provides
-import id.ac.esaunggul.breastcancerdetection.R
-import id.ac.esaunggul.breastcancerdetection.data.repo.MainRepo
 import java.util.Calendar
 import java.util.TimeZone
 
-@Module
-object MainModule {
+/**
+ * Builder class for common [MaterialDatePicker] used throughout this project.
+ *
+ * @see [MaterialDatePicker] for the full explanation of what this class does.
+ */
+class CommonDatePicker {
 
-    @MainScope
-    @Provides
-    fun provideDatePicker(): MaterialDatePicker<Long> {
+    /**
+     * Create an instance of [MaterialDatePicker] with default range of one month from now().
+     *
+     * @param monthLimit Int the amount of month(s) to limit from now() to limit.
+     * @param title Int String resource for the title String.
+     */
+    fun build(monthLimit: Int = 1, @StringRes title: Int): MaterialDatePicker<Long> {
         val builder = MaterialDatePicker.Builder.datePicker()
         val constraint = CalendarConstraints.Builder()
 
         val date = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-        date.add(Calendar.MONTH, 1)
+        date.add(Calendar.MONTH, monthLimit)
         val maxDate = date.timeInMillis
 
         val dateValidatorMin = DateValidatorPointForward.now()
@@ -53,14 +56,9 @@ object MainModule {
         val validators = CompositeDateValidator.allOf(listValidators)
         constraint.setValidator(validators)
 
-        builder.setTitleText(R.string.form_date_hint)
+        builder.setTitleText(title)
         builder.setCalendarConstraints(constraint.build())
 
         return builder.build()
     }
-
-    @MainScope
-    @Provides
-    fun provideMainRepo(auth: FirebaseAuth, database: FirebaseFirestore): MainRepo =
-        MainRepo(auth, database)
 }

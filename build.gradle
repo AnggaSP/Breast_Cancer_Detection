@@ -5,8 +5,9 @@ buildscript {
         appcompat_version = "1.1.0"
         activity_version = "1.1.0"
 
-        // Dagger
-        dagger_version = "2.28.1"
+        // Hilt
+        hilt_version = "2.28.1-alpha"
+        hilt_jetpack_version = "1.0.0-alpha01"
 
         // Glide
         glide_version = "4.11.0"
@@ -54,7 +55,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "com.google.gms:google-services:$gms_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_ktx_version"

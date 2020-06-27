@@ -25,7 +25,7 @@ import androidx.core.view.updatePadding
  * that are not edge-to-edge aware.
  *
  * Do note that this will consume the padding set in that view.
- * @param view take [View] object and apply the insets to that view.
+ * @param view View apply insets to that view.
  */
 fun applyInsets(view: View) {
     ViewCompat.setOnApplyWindowInsetsListener(view, null)
@@ -41,7 +41,7 @@ fun applyInsets(view: View) {
  * that are not edge-to-edge aware.
  *
  * Do note that this will consume the padding set in that view.
- * @param view take [View] object and apply the insets to that view.
+ * @param view View apply insets to that view.
  */
 fun removeInsets(view: View) {
     ViewCompat.setOnApplyWindowInsetsListener(view, null)
