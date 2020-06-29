@@ -21,17 +21,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentAuthBinding
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.startSharedAxisTransition
-import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
-import timber.log.Timber
 
 @AndroidEntryPoint
 class AuthFragment : Fragment() {
@@ -39,8 +35,13 @@ class AuthFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startSharedAxisTransition()
+        val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
+            defaultViewModelProviderFactory
+        }
 
+        authViewModel.init()
+
+        startSharedAxisTransition()
         enterTransition = MaterialFadeThrough()
     }
 
@@ -49,30 +50,12 @@ class AuthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val authViewModel: AuthViewModel by navGraphViewModels(R.id.navigation_auth) {
-            defaultViewModelProviderFactory
-        }
-
         val binding = FragmentAuthBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.direction = AuthFragmentDirections
 
         applyInsets(binding.authParentLayout)
-
-        authViewModel.authState.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                AuthState.AUTHENTICATED -> {
-                    Timber.d("User has logged in, continuing the session.")
-                    findNavController().navigate(AuthFragmentDirections.actionUserAuthenticated())
-                }
-                AuthState.UNAUTHENTICATED -> {
-                    Timber.d("No user session has been found, showing the auth screen.")
-                }
-                else -> Timber.e("Catastrophic error happened.")
-            }
-        })
 
         return binding.root
     }

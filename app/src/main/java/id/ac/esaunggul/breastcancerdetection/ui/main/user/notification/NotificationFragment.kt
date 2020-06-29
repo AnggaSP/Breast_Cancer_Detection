@@ -21,7 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.MaterialFadeThrough
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentNotificationBinding
 
 class NotificationFragment : Fragment() {

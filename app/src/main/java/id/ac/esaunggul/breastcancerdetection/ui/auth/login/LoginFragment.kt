@@ -16,27 +16,19 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.auth.login
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.github.razir.progressbutton.bindProgressButton
-import com.github.razir.progressbutton.hideProgress
-import com.github.razir.progressbutton.showProgress
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentLoginBinding
 import id.ac.esaunggul.breastcancerdetection.ui.auth.AuthViewModel
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.endSharedAxisTransition
-import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
-import timber.log.Timber
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -59,45 +51,10 @@ class LoginFragment : Fragment() {
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.authViewModel = authViewModel
-
-        applyInsets(binding.loginParentLayout)
-
         viewLifecycleOwner.bindProgressButton(binding.loginButton)
 
-        authViewModel.authState.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                AuthState.AUTHENTICATED -> {
-                    findNavController().navigate(LoginFragmentDirections.actionLoginAuthenticated())
-                }
-                AuthState.UNAUTHENTICATED -> {
-                    binding.loginButton.hideProgress(R.string.button_login)
-                    binding.loginButton.isClickable = true
-                }
-                AuthState.LOADING -> {
-                    Timber.d("Loading the data...")
-                    binding.loginButton.isClickable = false
-                    binding.loginButton.showProgress {
-                        textMarginPx = 0
-                        progressColor = Color.WHITE
-                    }
-                }
-                AuthState.INVALID -> {
-                    Timber.d("Authentication failed.")
-                    authViewModel.emailError.value = R.string.login_email_invalid
-                    authViewModel.passwordError.value = R.string.login_password_invalid
-                }
-                AuthState.ERROR -> {
-                    Timber.e("An error has occurred.")
-                    Toast.makeText(requireActivity(), R.string.network_failed, Toast.LENGTH_LONG)
-                        .show()
-                }
-                else -> {
-                    Timber.e("Catastrophic error happened.")
-                }
-            }
-        })
+        applyInsets(binding.loginParentLayout)
 
         return binding.root
     }

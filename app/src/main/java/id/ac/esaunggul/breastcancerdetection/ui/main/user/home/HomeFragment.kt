@@ -27,8 +27,8 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.transition.platform.Hold
-import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentHomeBinding
@@ -39,7 +39,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class HomeFragment : Fragment(), ClickListener {
 
-    private val homeArticleViewModel: HomeArticleViewModel by navGraphViewModels(R.id.navigation_main) {
+    private val homeArticleViewModel: HomeArticleViewModel by navGraphViewModels(R.id.fragment_navigation_home) {
         defaultViewModelProviderFactory
     }
 
@@ -60,7 +60,6 @@ class HomeFragment : Fragment(), ClickListener {
         binding.lifecycleOwner = viewLifecycleOwner
 
         val adapter = HomeArticleCardAdapter(this)
-
         binding.homeRecyclerView.setAdapter(adapter)
         binding.homeRecyclerView.setLayoutManager(LinearLayoutManager(requireActivity()))
         binding.homeRecyclerView.addVeiledItems(2)

@@ -97,6 +97,7 @@ dependencies {
     implementation "com.github.florent37:shapeofview:$shapeofview_version"
     implementation "com.github.razir.progressbutton:progressbutton:$progressbutton_version"
     implementation "com.github.skydoves:androidveil:$shimmer_version"
+    implementation "com.github.Zhuinden:event-emitter:$event_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation "com.google.firebase:firebase-analytics-ktx"

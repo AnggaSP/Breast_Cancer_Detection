@@ -14,27 +14,27 @@
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/fragment_navigation_home"
         android:icon="@drawable/ic_home"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_consultation"
+        android:id="@+id/fragment_consultation"
         android:icon="@drawable/ic_consultation"
         android:title="@string/title_consultation" />
 
     <item
-        android:id="@+id/navigation_notification"
+        android:id="@+id/fragment_notification"
         android:icon="@drawable/ic_notification"
         android:title="@string/title_notification" />
 
     <item
-        android:id="@+id/navigation_diagnosis"
+        android:id="@+id/fragment_diagnosis"
         android:icon="@drawable/ic_diagnosis"
         android:title="@string/title_diagnosis" />
 
     <item
-        android:id="@+id/navigation_profile"
+        android:id="@+id/fragment_profile"
         android:icon="@drawable/ic_profile"
         android:title="@string/title_profile" />
 </menu>

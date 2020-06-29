@@ -16,7 +16,9 @@
 
 package id.ac.esaunggul.breastcancerdetection.util.binding
 
+import android.graphics.Color
 import android.net.Uri
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
@@ -24,6 +26,8 @@ import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.showProgress
 import com.google.android.material.textfield.TextInputLayout
 import id.ac.esaunggul.breastcancerdetection.R
 import java.util.Date
@@ -37,6 +41,15 @@ fun setError(viewGroup: TextInputLayout, error: MutableLiveData<Int?>) {
             viewGroup.error = viewGroup.context
                 .getString((resId))
         }
+    }
+}
+
+@BindingAdapter("focus")
+fun setFocus(view: TextView, focus: Boolean) {
+    if (focus) {
+        view.requestFocus()
+    } else {
+        view.clearFocus()
     }
 }
 
@@ -68,12 +81,15 @@ fun bindImageUrl(view: ImageView, url: String?) {
     }
 }
 
-@BindingAdapter("focus")
-fun setFocus(view: TextView, focus: Boolean) {
-    if (focus) {
-        view.requestFocus()
+@BindingAdapter(value = ["showProgress", "onHideText"])
+fun showProgress(view: Button, show: Boolean, hideText: String) {
+    if (show) {
+        view.showProgress {
+            textMarginPx = 0
+            progressColor = Color.WHITE
+        }
     } else {
-        view.clearFocus()
+        view.hideProgress(hideText)
     }
 }
 

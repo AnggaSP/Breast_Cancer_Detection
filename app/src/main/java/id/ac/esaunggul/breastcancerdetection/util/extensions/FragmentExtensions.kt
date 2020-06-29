@@ -17,8 +17,7 @@
 package id.ac.esaunggul.breastcancerdetection.util.extensions
 
 import androidx.fragment.app.Fragment
-import com.google.android.material.transition.platform.MaterialSharedAxis
-
+import com.google.android.material.transition.MaterialSharedAxis
 
 /**
  * Helper extensions for setting up the start of shared axis transition.

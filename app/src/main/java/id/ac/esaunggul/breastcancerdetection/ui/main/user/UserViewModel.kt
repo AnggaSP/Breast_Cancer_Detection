@@ -22,26 +22,35 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import id.ac.esaunggul.breastcancerdetection.R
+import id.ac.esaunggul.breastcancerdetection.data.model.ConsultationFormModel
+import id.ac.esaunggul.breastcancerdetection.data.model.DiagnosisFormModel
 import id.ac.esaunggul.breastcancerdetection.data.model.UserModel
 import id.ac.esaunggul.breastcancerdetection.data.repo.Repo
+import id.ac.esaunggul.breastcancerdetection.ui.main.user.profile.ProfileFragmentDirections
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.NavigationDispatcher
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.ToastDispatcher
+import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.text.DateFormat
+import java.util.Date
+import java.util.Locale
 
 class UserViewModel
 @ViewModelInject
 constructor(
+    private val navigationDispatcher: NavigationDispatcher,
+    private val toastDispatcher: ToastDispatcher,
     private val repo: Repo
 ) : ViewModel() {
 
     private val _profile = MutableLiveData<UserModel>()
     val profile: LiveData<UserModel> = _profile
-
-    private val _state = MutableLiveData<ResourceState<out Nothing?>?>()
-    val state: LiveData<ResourceState<out Nothing?>?> = _state
 
     val nameError = MutableLiveData<Int?>()
     val addressError = MutableLiveData<Int?>()
@@ -61,6 +70,12 @@ constructor(
     val dateFieldFocus = MutableLiveData<Boolean>(false)
     val concernFieldFocus = MutableLiveData<Boolean>(false)
 
+    private val _clickable = MutableLiveData<Boolean>(true)
+    val clickable = _clickable
+
+    private val _loading = MutableLiveData<Boolean>(false)
+    val loading = _loading
+
     init {
         fetchUser()
     }
@@ -70,11 +85,13 @@ constructor(
             repo.fetchUserData().collect { state ->
                 when (state) {
                     is ResourceState.Success -> state.data?.let { data -> _profile.postValue(data) }
+
                     is ResourceState.Error -> {
                         Timber.e("Cannot fetch userdata, using default name.")
                         Timber.e("Reason: ${state.code}")
                         _profile.postValue(UserModel("ERROR", "User", "user@error.com"))
                     }
+
                     is ResourceState.Loading -> Timber.d("Fetching the userdata")
                 }
             }
@@ -84,22 +101,53 @@ constructor(
     fun saveConsultInfo() {
         releaseError()
         releaseFocus()
-        when {
-            !commonValidation() -> Unit
-            concernField.value.isNullOrEmpty() -> {
-                concernError.value = R.string.form_empty
-                concernFieldFocus.value = true
-            }
-            else -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    repo.saveConsultationInformation(
+
+        var state = commonValidation()
+
+        if (concernField.value.isNullOrEmpty()) {
+            concernError.value = R.string.form_empty
+            state = false
+        }
+
+        if (state) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val dateConverter =
+                    DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+                val dateConverted: Date?
+                dateConverted = dateField.value?.let { dateConverter.parse(it) } ?: Date()
+
+                repo.saveConsultationInformation(
+                    ConsultationFormModel(
+                        profile.value?.uid,
                         nameField.value,
                         addressField.value,
                         historyField.value,
-                        dateField.value,
+                        dateConverted,
                         concernField.value
-                    ).collect { state ->
-                        _state.postValue(state)
+                    )
+                ).collect { state ->
+                    when (state) {
+                        is ResourceState.Success -> {
+                            Timber.d("Successfully submitted the form, showing informational toast.")
+                            withContext(Dispatchers.Main) {
+                                release()
+                                toastDispatcher.emit(R.string.form_submitted)
+                            }
+                            releaseClickableButtonBackground()
+                        }
+
+                        is ResourceState.Error -> {
+                            Timber.e("An error occurred during transaction: ${state.code}")
+                            withContext(Dispatchers.Main) {
+                                toastDispatcher.emit(R.string.network_failed)
+                            }
+                            releaseClickableButtonBackground()
+                        }
+
+                        is ResourceState.Loading -> {
+                            Timber.d("Submitting...")
+                            setClickableButtonBackground()
+                        }
                     }
                 }
             }
@@ -109,15 +157,46 @@ constructor(
     fun saveDiagnosisInfo() {
         releaseError()
         releaseFocus()
+
         if (commonValidation()) {
             viewModelScope.launch(Dispatchers.IO) {
+                val dateConverter =
+                    DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+                val dateConverted: Date?
+                dateConverted = dateField.value?.let { dateConverter.parse(it) } ?: Date()
+
                 repo.saveDiagnosisInformation(
-                    nameField.value,
-                    addressField.value,
-                    historyField.value,
-                    dateField.value
+                    DiagnosisFormModel(
+                        profile.value?.uid,
+                        nameField.value,
+                        addressField.value,
+                        historyField.value,
+                        dateConverted
+                    )
                 ).collect { state ->
-                    _state.postValue(state)
+                    when (state) {
+                        is ResourceState.Success -> {
+                            Timber.d("Successfully submitted the form, showing informational toast.")
+                            withContext(Dispatchers.Main) {
+                                release()
+                                toastDispatcher.emit(R.string.form_submitted)
+                            }
+                            releaseClickableButtonBackground()
+                        }
+
+                        is ResourceState.Error -> {
+                            Timber.e("An error occurred during transaction: ${state.code}")
+                            withContext(Dispatchers.Main) {
+                                toastDispatcher.emit(R.string.network_failed)
+                            }
+                            releaseClickableButtonBackground()
+                        }
+
+                        is ResourceState.Loading -> {
+                            Timber.d("Submitting...")
+                            setClickableButtonBackground()
+                        }
+                    }
                 }
             }
         }
@@ -126,7 +205,25 @@ constructor(
     fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.logout().collect { state ->
-                _state.postValue(state)
+                when (state) {
+                    AuthState.UNAUTHENTICATED -> {
+                        withContext(Dispatchers.Main) {
+                            release()
+                            navigationDispatcher.emit { navController ->
+                                navController.navigate(ProfileFragmentDirections.actionLogout())
+                            }
+                        }
+                    }
+
+                    AuthState.ERROR -> {
+                        Timber.e("Failed to logout")
+                        withContext(Dispatchers.Main) {
+                            toastDispatcher.emit(R.string.network_failed)
+                        }
+                    }
+
+                    else -> Timber.e("Catastrophic error happened.")
+                }
             }
         }
     }
@@ -135,33 +232,46 @@ constructor(
         releaseField()
         releaseError()
         releaseFocus()
-        _state.value = null
+        releaseClickableButton()
     }
 
     private fun commonValidation(): Boolean {
-        when {
-            FormValidation.isNameNotValid(nameField.value) -> {
-                nameError.value = R.string.name_invalid
-                nameFieldFocus.value = true
-                return false
-            }
-            addressField.value.isNullOrEmpty() -> {
-                addressError.value = R.string.form_empty
-                addressFieldFocus.value = true
-                return false
-            }
-            historyField.value.isNullOrEmpty() -> {
-                historyError.value = R.string.form_empty
-                historyFieldFocus.value = true
-                return false
-            }
-            dateField.value.isNullOrEmpty() -> {
-                dateError.value = R.string.form_empty
-                dateFieldFocus.value = true
-                return false
-            }
-            else -> return true
+        var state = true
+        if (nameField.value.isNullOrEmpty()) {
+            nameError.value = R.string.form_empty
+        } else if (FormValidation.isNameNotValid(nameField.value)) {
+            nameError.value = R.string.name_invalid
+            state = false
         }
+
+        if (addressField.value.isNullOrEmpty()) {
+            addressError.value = R.string.form_empty
+            state = false
+        }
+        if (historyField.value.isNullOrEmpty()) {
+            historyError.value = R.string.form_empty
+            state = false
+        }
+        if (dateField.value.isNullOrEmpty()) {
+            dateError.value = R.string.form_empty
+            state = false
+        }
+        return state
+    }
+
+    private fun setClickableButtonBackground() {
+        _clickable.postValue(false)
+        _loading.postValue(true)
+    }
+
+    private fun releaseClickableButton() {
+        _loading.value = false
+        _clickable.value = true
+    }
+
+    private fun releaseClickableButtonBackground() {
+        _loading.postValue(false)
+        _clickable.postValue(true)
     }
 
     private fun releaseError() {

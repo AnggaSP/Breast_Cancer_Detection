@@ -16,14 +16,13 @@
 
 package id.ac.esaunggul.breastcancerdetection.data.model
 
-import android.net.Uri
-import com.google.firebase.firestore.PropertyName
+import java.util.Date
 
-data class UserModel(
-    var uid: String = "",
+data class ConsultationFormModel(
+    var uid: String? = null,
     var name: String? = null,
-    var email: String? = null,
-    @get:PropertyName("photo_url")
-    @set:PropertyName("photo_url")
-    var photoUrl: Uri? = null
+    var address: String? = null,
+    var history: String? = null,
+    var date: Date? = null,
+    var concern: String? = null
 )

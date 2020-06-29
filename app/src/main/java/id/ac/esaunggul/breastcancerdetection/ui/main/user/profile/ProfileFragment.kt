@@ -20,18 +20,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentProfileBinding
 import id.ac.esaunggul.breastcancerdetection.ui.main.user.UserViewModel
-import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
-import timber.log.Timber
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -55,23 +50,7 @@ class ProfileFragment : Fragment() {
         val binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.userViewModel = userViewModel
-
-        userViewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is ResourceState.Success -> {
-                    userViewModel.release()
-                    findNavController().navigate(ProfileFragmentDirections.actionLogout())
-                }
-                is ResourceState.Error -> {
-                    Timber.e("Failed to logout")
-                    Timber.e("Reason: ${state.code}")
-                    Toast.makeText(requireContext(), R.string.network_failed, Toast.LENGTH_LONG)
-                        .show()
-                }
-            }
-        })
 
         return binding.root
     }

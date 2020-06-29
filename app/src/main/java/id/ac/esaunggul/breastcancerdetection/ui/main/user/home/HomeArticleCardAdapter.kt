@@ -76,7 +76,7 @@ class HomeArticleCardAdapter(
 
     class HomeArticleDiffCallback : DiffUtil.ItemCallback<ArticleModel>() {
         override fun areItemsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {
-            return oldItem.documentId == newItem.documentId
+            return oldItem.uid == newItem.uid
         }
 
         override fun areContentsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {

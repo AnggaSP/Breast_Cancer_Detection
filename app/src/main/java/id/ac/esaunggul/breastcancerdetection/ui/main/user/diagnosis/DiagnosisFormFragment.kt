@@ -16,26 +16,19 @@
 
 package id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.navGraphViewModels
 import com.github.razir.progressbutton.bindProgressButton
-import com.github.razir.progressbutton.hideProgress
-import com.github.razir.progressbutton.showProgress
-import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.FragmentDiagnosisFormBinding
 import id.ac.esaunggul.breastcancerdetection.ui.common.CommonDatePicker
 import id.ac.esaunggul.breastcancerdetection.ui.main.user.UserViewModel
-import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DiagnosisFormFragment : Fragment() {
@@ -59,39 +52,9 @@ class DiagnosisFormFragment : Fragment() {
         val binding = FragmentDiagnosisFormBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.handler = this
         binding.userViewModel = userViewModel
-
         viewLifecycleOwner.bindProgressButton(binding.diagnosisConfirmButton)
-
-        userViewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is ResourceState.Success -> {
-                    Timber.d("Successfully submitted the form, showing informational toast.")
-                    Toast.makeText(requireContext(), R.string.form_submitted, Toast.LENGTH_LONG)
-                        .show()
-                    binding.diagnosisConfirmButton.hideProgress(R.string.diagnosis_form_button_hint)
-                    userViewModel.release()
-                    binding.diagnosisConfirmButton.isClickable = true
-                }
-                is ResourceState.Error -> {
-                    Timber.e("An error occurred during transaction: ${state.code}")
-                    Toast.makeText(requireContext(), R.string.network_failed, Toast.LENGTH_LONG)
-                        .show()
-                    binding.diagnosisConfirmButton.hideProgress(R.string.diagnosis_form_button_hint)
-                    binding.diagnosisConfirmButton.isClickable = true
-                }
-                is ResourceState.Loading -> {
-                    Timber.d("Submitting...")
-                    binding.diagnosisConfirmButton.isClickable = false
-                    binding.diagnosisConfirmButton.showProgress {
-                        textMarginPx = 0
-                        progressColor = Color.WHITE
-                    }
-                }
-            }
-        })
 
         return binding.root
     }
@@ -103,7 +66,7 @@ class DiagnosisFormFragment : Fragment() {
     }
 
     fun showDatePicker() {
-        val picker = CommonDatePicker().build(title = R.string.form_date_hint)
+        val picker = CommonDatePicker().build(title = R.string.mtrl_picker_text_input_date_hint)
         picker.show(parentFragmentManager, picker.toString())
         picker.addOnPositiveButtonClickListener {
             userViewModel.dateField.value = picker.headerText

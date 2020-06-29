@@ -22,7 +22,7 @@ import java.util.Date
 
 data class ArticleModel(
     @DocumentId
-    var documentId: String = "",
+    var uid: String = "",
     var author: String = "",
     var content: String = "",
     @get:PropertyName("date_published")

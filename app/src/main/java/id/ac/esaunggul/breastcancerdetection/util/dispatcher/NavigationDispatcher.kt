@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package id.ac.esaunggul.breastcancerdetection.data.model
+package id.ac.esaunggul.breastcancerdetection.util.dispatcher
 
-import android.net.Uri
-import com.google.firebase.firestore.PropertyName
+import androidx.navigation.NavController
+import com.zhuinden.eventemitter.EventEmitter
+import com.zhuinden.eventemitter.EventSource
 
-data class UserModel(
-    var uid: String = "",
-    var name: String? = null,
-    var email: String? = null,
-    @get:PropertyName("photo_url")
-    @set:PropertyName("photo_url")
-    var photoUrl: Uri? = null
-)
+class NavigationDispatcher {
+    private val navigationEmitter: EventEmitter<(NavController) -> Unit> = EventEmitter()
+    val navigationCommands: EventSource<(NavController) -> Unit> = navigationEmitter
+
+    fun emit(command: (NavController) -> Unit) {
+        navigationEmitter.emit(command)
+    }
+}

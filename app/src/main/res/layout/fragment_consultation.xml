@@ -179,11 +179,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:clickable="@{userViewModel.clickable}"
                 android:onClick="@{() -> userViewModel.saveConsultInfo()}"
                 android:text="@string/consultation_form_button_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/consultation_concerns_layout" />
+                app:layout_constraintTop_toBottomOf="@id/consultation_concerns_layout"
+                app:onHideText="@{@string/consultation_form_button_hint}"
+                app:showProgress="@{userViewModel.loading}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

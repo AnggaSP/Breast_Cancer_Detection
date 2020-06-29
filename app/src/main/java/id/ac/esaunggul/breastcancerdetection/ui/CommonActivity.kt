@@ -20,6 +20,7 @@ import android.animation.LayoutTransition
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,13 +28,23 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.ActivityCommonBinding
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.NavigationDispatcher
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.ToastDispatcher
+import id.ac.esaunggul.breastcancerdetection.util.event.observe
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
 import id.ac.esaunggul.breastcancerdetection.util.extensions.removeInsets
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CommonActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var navigationDispatcher: NavigationDispatcher
+
+    @Inject
+    lateinit var toastDispatcher: ToastDispatcher
 
     /*
      * Keep track of the authentication state as we need it to fend of the keyboard listener.
@@ -59,7 +70,6 @@ class CommonActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityCommonBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         binding.lifecycleOwner = this
@@ -94,12 +104,26 @@ class CommonActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_consultation, R.id.navigation_notification,
-                R.id.navigation_diagnosis, R.id.navigation_profile
+                R.id.fragment_home, R.id.fragment_consultation, R.id.fragment_notification,
+                R.id.fragment_diagnosis, R.id.fragment_profile
             )
         )
         binding.commonToolbar.setupWithNavController(navController, appBarConfiguration)
         binding.commonNavView.setupWithNavController(navController)
+
+        /*
+         * Dispatcher for navigation in viewmodel.
+         */
+        navigationDispatcher.navigationCommands.observe(this) { command ->
+            command.invoke(navController)
+        }
+
+        /*
+         * Dispatcher for toast in viewmodel.
+         */
+        toastDispatcher.toastParam.observe(this) { param ->
+            Toast.makeText(this, param, Toast.LENGTH_LONG).show()
+        }
 
         /*
          * Prevent navigation component from recreating fragment on reselection.
@@ -114,21 +138,21 @@ class CommonActivity : AppCompatActivity() {
          */
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_auth -> {
+                R.id.fragment_auth -> {
                     removeInsets(binding.commonParentLayout)
                     hasLogin = false
                     binding.commonAppBar.visibility = View.GONE
                     binding.commonNavView.visibility = View.GONE
                     binding.commonToolbar.title = null
                 }
-                R.id.navigation_login -> {
+                R.id.fragment_login -> {
                     removeInsets(binding.commonParentLayout)
                     hasLogin = false
                     binding.commonAppBar.visibility = View.GONE
                     binding.commonNavView.visibility = View.GONE
                     binding.commonToolbar.title = null
                 }
-                R.id.navigation_registration -> {
+                R.id.fragment_registration -> {
                     removeInsets(binding.commonParentLayout)
                     hasLogin = false
                     binding.commonAppBar.visibility = View.GONE
