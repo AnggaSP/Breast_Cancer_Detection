@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Angga Satya Putra
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package id.ac.esaunggul.breastcancerdetection.di
 
 import com.google.firebase.auth.FirebaseAuth
@@ -26,8 +10,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import id.ac.esaunggul.breastcancerdetection.data.api.DetectionApi
 import id.ac.esaunggul.breastcancerdetection.data.repo.FirebaseRepo
 import id.ac.esaunggul.breastcancerdetection.data.repo.Repo
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
@@ -42,6 +31,21 @@ abstract class AppModule {
         @Singleton
         @Provides
         fun provideDatabaseInstance(): FirebaseFirestore = Firebase.firestore
+
+        @Singleton
+        @Provides
+        fun provideRetrofitInstance(): DetectionApi {
+            val okHttpClient: OkHttpClient = OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.MINUTES)
+                .readTimeout(10, TimeUnit.MINUTES)
+                .writeTimeout(10, TimeUnit.MINUTES)
+                .build()
+
+            return Retrofit.Builder().baseUrl("https://api.fasilkom.me/")
+                .client(okHttpClient)
+                .addConverterFactory(MoshiConverterFactory.create()).build()
+                .create(DetectionApi::class.java)
+        }
     }
 
     @Singleton

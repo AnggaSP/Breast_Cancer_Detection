@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.admin.diagnosis.main.DiagnosisFragment">
+
+    <com.skydoves.androidveil.VeilRecyclerFrameView
+        android:id="@+id/diagnosis_admin_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="true"
+        app:veilFrame_baseColor="#E0E0E0"
+        app:veilFrame_highlightColor="#F5F5F5"
+        app:veilFrame_layout="@layout/fragment_diagnosis_admin_card"
+        app:veilFrame_shimmerEnable="true"
+        app:veilFrame_veiled="true"
+        app:veilLayout_baseAlpha="0.6"
+        app:veilLayout_dropOff="0.5"
+        app:veilLayout_highlightAlpha="1.0"
+        tools:listitem="@layout/fragment_diagnosis_admin_card" />
+</layout>

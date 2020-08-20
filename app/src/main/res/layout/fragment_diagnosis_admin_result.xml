@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.admin.diagnosis.upload.DiagnosisResultFragment">
+
+    <data>
+
+        <variable
+            name="diagnosisViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.DiagnosisViewModel" />
+
+        <variable
+            name="diagnosisUploadViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.upload.DiagnosisUploadViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/diagnosis_upload_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <!-- Due to changes in specifications, we left with this fixed string -->
+        <!-- If in the future we would want to add more types, we can easily refactor it -->
+        <ImageView
+            android:id="@+id/diagnosis_upload_mammography"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:contentDescription="@string/diagnosis_mammography_image_description"
+            app:layout_constraintBottom_toTopOf="@+id/diagnosis_upload_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:imageUrl="@{diagnosisUploadViewModel.selectedImage}" />
+
+        <TextView
+            android:id="@+id/diagnosis_upload_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{@string/diagnosis_upload_title(diagnosisViewModel.diagnosis.data.get(diagnosisUploadViewModel.position).name)}"
+            app:layout_constraintBottom_toTopOf="@+id/diagnosis_upload_add_image_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_mammography"
+            tools:text="Mammography for Jane Doe" />
+
+        <TextView
+            android:id="@+id/diagnosis_upload_add_image_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{@string/diagnosis_result_benign(diagnosisUploadViewModel.benign)}"
+            app:layout_constraintBottom_toTopOf="@+id/diagnosis_add_image_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_title"
+            tools:text="Benign: 0%" />
+
+        <TextView
+            android:id="@+id/diagnosis_add_image_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{@string/diagnosis_result_malignant(diagnosisUploadViewModel.malignant)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_add_image_text"
+            tools:text="Malignant: 0%" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

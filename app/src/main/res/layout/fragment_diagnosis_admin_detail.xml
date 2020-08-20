@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.admin.diagnosis.main.DiagnosisDetailFragment">
+
+    <data>
+
+        <import type="androidx.navigation.Navigation" />
+
+        <variable
+            name="diagnosisViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.DiagnosisViewModel" />
+
+        <variable
+            name="direction"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.main.DiagnosisDetailFragmentDirections.Companion" />
+
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardElevation="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/diagnosis_admin_detail_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_name_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/form_name_hint"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{diagnosisViewModel.diagnosis.data.get(position).name}"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_name_hint"
+                tools:text="User Name" />
+
+            <View
+                android:id="@+id/diagnosis_admin_detail_first_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_name" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_address_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/form_address_hint"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_first_divider" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{diagnosisViewModel.diagnosis.data.get(position).address}"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_address_hint"
+                tools:text="User Address" />
+
+            <View
+                android:id="@+id/diagnosis_admin_detail_second_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_address" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_history_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/form_history_hint"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_second_divider" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{diagnosisViewModel.diagnosis.data.get(position).history}"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_history_hint"
+                tools:text="User Medical History" />
+
+            <View
+                android:id="@+id/diagnosis_admin_detail_third_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_history" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_date_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/form_date_hint"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_admin_detail_third_divider" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_date_hint"
+                app:textDate="@{diagnosisViewModel.diagnosis.data.get(position).date}"
+                tools:text="Jun 30 1800" />
+
+            <View
+                android:id="@+id/diagnosis_admin_detail_fourth_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_date" />
+
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_type_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/form_type"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_fourth_divider" />
+
+            <!-- Due to changes in specifications, we left with this fixed string -->
+            <!-- If in the future we would want to add more types, we can easily refactor it -->
+            <TextView
+                android:id="@+id/diagnosis_admin_detail_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/diagnosis_mammography"
+                android:textIsSelectable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_type_hint" />
+
+            <View
+                android:id="@+id/diagnosis_admin_detail_fifth_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_type" />
+
+            <Button
+                android:id="@+id/diagnosis_admin_detail_diagnose_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:onClick="@{view -> Navigation.findNavController(view).navigate(direction.actionDiagnosisDetailToUpload(position))}"
+                android:text="@string/diagnose"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_admin_detail_fifth_divider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

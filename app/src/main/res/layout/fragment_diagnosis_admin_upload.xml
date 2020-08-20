@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.admin.diagnosis.upload.DiagnosisResultFragment">
+
+    <data>
+
+        <variable
+            name="diagnosisViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.DiagnosisViewModel" />
+
+        <variable
+            name="diagnosisUploadViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.upload.DiagnosisUploadViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/diagnosis_upload_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardElevation="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/diagnosis_upload_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/diagnosis_upload_mammography"
+                android:layout_width="192dp"
+                android:layout_height="192dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/diagnosis_mammography_image_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_image_hint"
+                app:srcCompat="@drawable/ic_image_192" />
+
+            <!-- Due to changes in specifications, we left with this fixed string -->
+            <!-- If in the future we would want to add more types, we can easily refactor it -->
+            <TextView
+                android:id="@+id/diagnosis_upload_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@{@string/diagnosis_upload_title(diagnosisViewModel.diagnosis.data.get(diagnosisUploadViewModel.position).name)}"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Mammography for Jane Doe" />
+
+            <TextView
+                android:id="@+id/diagnosis_upload_image_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/diagnosis_upload_image_hint"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_title" />
+
+            <TextView
+                android:id="@+id/diagnosis_upload_add_image_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/diagnosis_upload_add_image"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_mammography" />
+
+            <TextView
+                android:id="@+id/diagnosis_add_image_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/diagnosis_upload_add_image_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_add_image_text" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/diagnosis_upload_view_type"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/diagnosis_upload_spinner_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_add_image_hint">
+
+                <AutoCompleteTextView
+                    android:id="@+id/diagnosis_layout_view_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/diagnosis_upload_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_view_type" />
+
+            <Button
+                android:id="@+id/diagnosis_upload_confirm_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/diagnosis_upload_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/diagnosis_upload_divider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

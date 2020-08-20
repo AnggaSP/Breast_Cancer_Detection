@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_navigation_consultation_admin"
+        android:icon="@drawable/ic_consultation"
+        android:title="@string/title_consultation" />
+
+    <item
+        android:id="@+id/fragment_navigation_diagnosis_admin"
+        android:icon="@drawable/ic_diagnosis"
+        android:title="@string/title_diagnosis" />
+
+    <item
+        android:id="@+id/fragment_notification_admin"
+        android:icon="@drawable/ic_notification"
+        android:title="@string/title_notification" />
+
+    <item
+        android:id="@+id/fragment_profile_admin"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/title_profile" />
+</menu>

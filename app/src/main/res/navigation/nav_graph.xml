@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2020 Angga Satya Putra
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
-  in compliance with the License. You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the License
-  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  or implied. See the License for the specific language governing permissions and limitations under
-  the License.
-  -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,109 +8,240 @@
     <navigation
         android:id="@+id/navigation_auth"
         app:startDestination="@id/fragment_auth">
+
         <fragment
             android:id="@+id/fragment_auth"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.AuthFragment"
             tools:layout="@layout/fragment_auth">
+
             <action
                 android:id="@+id/action_auth_to_login"
                 app:destination="@id/fragment_login"
                 app:launchSingleTop="true" />
+
             <action
                 android:id="@+id/action_auth_to_register"
                 app:destination="@id/fragment_registration"
                 app:launchSingleTop="true" />
-            <action
-                android:id="@+id/action_user_authenticated"
-                app:destination="@id/navigation_main"
-                app:popUpTo="@id/nav_graph"
-                app:popUpToInclusive="true" />
         </fragment>
+
         <fragment
             android:id="@+id/fragment_login"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.login.LoginFragment"
             tools:layout="@layout/fragment_login">
-            <action
-                android:id="@+id/action_login_authenticated"
-                app:destination="@id/navigation_main"
-                app:launchSingleTop="true"
-                app:popUpTo="@id/nav_graph"
-                app:popUpToInclusive="true" />
         </fragment>
+
         <fragment
             android:id="@+id/fragment_registration"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.auth.register.RegisterFragment"
             tools:layout="@layout/fragment_register">
-            <action
-                android:id="@+id/action_register_authenticated"
-                app:destination="@id/navigation_main"
-                app:launchSingleTop="true"
-                app:popUpTo="@id/nav_graph"
-                app:popUpToInclusive="true" />
         </fragment>
+
+        <action
+            android:id="@+id/action_user_authenticated"
+            app:destination="@id/navigation_main"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_user_authenticated_admin"
+            app:destination="@id/navigation_admin"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </navigation>
 
     <navigation
         android:id="@+id/navigation_main"
         app:startDestination="@id/fragment_navigation_home">
+
         <fragment
             android:id="@+id/fragment_notification"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.notification.NotificationFragment"
-            android:label="@string/title_notification"
             tools:layout="@layout/fragment_notification" />
+
         <fragment
             android:id="@+id/fragment_consultation"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.consultation.ConsultationFragment"
-            android:label="@string/title_consultation"
             tools:layout="@layout/fragment_consultation" />
+
         <fragment
             android:id="@+id/fragment_profile"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.profile.ProfileFragment"
-            android:label="@string/title_profile"
             tools:layout="@layout/fragment_profile">
-            <action
-                android:id="@+id/action_logout"
-                app:destination="@id/navigation_auth"
-                app:launchSingleTop="true"
-                app:popUpTo="@id/nav_graph"
-                app:popUpToInclusive="true" />
         </fragment>
+
         <fragment
             android:id="@+id/fragment_diagnosis_form"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis.DiagnosisFormFragment"
             tools:layout="@layout/fragment_diagnosis_form" />
+
         <fragment
             android:id="@+id/fragment_diagnosis"
             android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis.DiagnosisFragment"
-            android:label="@string/title_diagnosis"
             tools:layout="@layout/fragment_diagnosis">
+
             <action
                 android:id="@+id/action_diagnosis_to_form"
                 app:destination="@id/fragment_diagnosis_form"
                 app:launchSingleTop="true" />
         </fragment>
+
         <navigation
             android:id="@+id/fragment_navigation_home"
             app:startDestination="@id/fragment_home">
+
             <fragment
                 android:id="@+id/fragment_home"
                 android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.home.HomeFragment"
-                android:label="@string/title_home"
                 tools:layout="@layout/fragment_home">
+
                 <action
                     android:id="@+id/action_home_to_detail"
                     app:destination="@id/fragment_home_article_detail"
                     app:launchSingleTop="true" />
             </fragment>
+
             <fragment
                 android:id="@+id/fragment_home_article_detail"
                 android:name="id.ac.esaunggul.breastcancerdetection.ui.main.user.home.HomeArticleDetailFragment"
                 tools:layout="@layout/fragment_home_article_detail">
+
                 <argument
                     android:name="position"
                     android:defaultValue="0"
                     app:argType="integer" />
             </fragment>
         </navigation>
+
+        <action
+            android:id="@+id/action_user_logout"
+            app:destination="@id/navigation_auth"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </navigation>
+
+    <navigation android:id="@+id/navigation_admin"
+        app:startDestination="@id/fragment_navigation_consultation_admin">
+
+        <navigation android:id="@+id/fragment_navigation_consultation_admin"
+            app:startDestination="@id/fragment_consultation_admin">
+
+            <fragment
+                android:id="@+id/fragment_consultation_admin"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.consultation.ConsultationFragment"
+                tools:layout="@layout/fragment_consultation_admin">
+
+                <action
+                    android:id="@+id/action_consultation_to_detail_admin"
+                    app:destination="@id/fragment_consultation_detail_admin"
+                    app:launchSingleTop="true" />
+            </fragment>
+
+            <fragment
+                android:id="@+id/fragment_consultation_detail_admin"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.consultation.ConsultationDetailFragment">
+
+                <argument
+                    android:name="position"
+                    android:defaultValue="0"
+                    app:argType="integer" />
+            </fragment>
+        </navigation>
+
+        <navigation android:id="@+id/fragment_navigation_diagnosis_admin"
+            app:startDestination="@id/fragment_diagnosis_admin">
+
+            <fragment
+                android:id="@+id/fragment_diagnosis_admin"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.main.DiagnosisFragment"
+                tools:layout="@layout/fragment_diagnosis_admin">
+
+                <action
+                    android:id="@+id/action_diagnosis_to_detail_admin"
+                    app:destination="@id/fragment_diagnosis_detail_admin"
+                    app:launchSingleTop="true" />
+            </fragment>
+
+            <fragment
+                android:id="@+id/fragment_diagnosis_detail_admin"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.main.DiagnosisDetailFragment">
+
+                <argument
+                    android:name="position"
+                    android:defaultValue="0"
+                    app:argType="integer" />
+
+                <action
+                    android:id="@+id/action_diagnosis_detail_to_upload"
+                    app:destination="@id/fragment_navigation_diagnosis_upload_admin"
+                    app:launchSingleTop="true">
+
+                    <argument
+                        android:name="position"
+                        android:defaultValue="0"
+                        app:argType="integer" />
+
+                </action>
+
+            </fragment>
+        </navigation>
+
+        <navigation android:id="@+id/fragment_navigation_diagnosis_upload_admin"
+            app:startDestination="@id/fragment_diagnosis_upload">
+
+            <fragment
+                android:id="@+id/fragment_diagnosis_upload"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.upload.DiagnosisUploadFragment"
+                tools:layout="@layout/fragment_diagnosis_admin_upload" >
+
+                <argument
+                    android:name="position"
+                    android:defaultValue="0"
+                    app:argType="integer" />
+
+                <action
+                    android:id="@+id/action_upload_to_loading"
+                    app:destination="@id/fragment_diagnosis_loading"
+                    app:popUpTo="@id/fragment_diagnosis_upload"
+                    app:popUpToInclusive="true"
+                    app:launchSingleTop="true" />
+            </fragment>
+
+            <fragment
+                android:id="@+id/fragment_diagnosis_loading"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.upload.DiagnosisLoadingFragment"
+                tools:layout="@layout/fragment_diagnosis_admin_loading" >
+
+                <action
+                    android:id="@+id/action_loading_to_result"
+                    app:destination="@id/fragment_diagnosis_result"
+                    app:popUpTo="@id/fragment_diagnosis_loading"
+                    app:popUpToInclusive="true"
+                    app:launchSingleTop="true" />
+            </fragment>
+
+            <fragment
+                android:id="@+id/fragment_diagnosis_result"
+                android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.upload.DiagnosisResultFragment"
+                tools:layout="@layout/fragment_diagnosis_admin_result" />
+        </navigation>
+
+        <fragment
+            android:id="@+id/fragment_notification_admin"
+            android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.notification.NotificationFragment"
+            tools:layout="@layout/fragment_notification_admin" />
+
+        <fragment
+            android:id="@+id/fragment_profile_admin"
+            android:name="id.ac.esaunggul.breastcancerdetection.ui.main.admin.profile.ProfileFragment"
+            tools:layout="@layout/fragment_profile_admin" />
+
+        <action
+            android:id="@+id/action_admin_logout"
+            app:destination="@id/navigation_auth"
+            app:launchSingleTop="true" />
     </navigation>
 </navigation>

@@ -1,19 +1,3 @@
-/*
- * Copyright 2020 Angga Satya Putra
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package id.ac.esaunggul.breastcancerdetection.data.repo
 
 import com.google.firebase.auth.FirebaseAuth
@@ -24,12 +8,14 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import id.ac.esaunggul.breastcancerdetection.data.model.ArticleModel
-import id.ac.esaunggul.breastcancerdetection.data.model.ConsultationFormModel
-import id.ac.esaunggul.breastcancerdetection.data.model.DiagnosisFormModel
+import id.ac.esaunggul.breastcancerdetection.data.model.ConsultationModel
+import id.ac.esaunggul.breastcancerdetection.data.model.DiagnosisModel
 import id.ac.esaunggul.breastcancerdetection.data.model.UserModel
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
 import id.ac.esaunggul.breastcancerdetection.util.state.ResourceState
+import id.ac.esaunggul.breastcancerdetection.util.state.UserPrivilege
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -55,9 +41,38 @@ constructor(
     override fun fetchArticles(): Flow<ResourceState<List<ArticleModel>>> = flow {
         emit(ResourceState.Loading<List<ArticleModel>>())
 
-        val fetch = database.collection("articles").get().await()
+        val fetch = database.collection("articles")
+            .orderBy("date_published", Query.Direction.DESCENDING)
+            .get()
+            .await()
 
         emit(ResourceState.Success(fetch.toObjects(ArticleModel::class.java)))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
+    }.flowOn(Dispatchers.IO)
+
+    override fun fetchConsultation(): Flow<ResourceState<List<ConsultationModel>>> = flow {
+        emit(ResourceState.Loading<List<ConsultationModel>>())
+
+        val fetch = database.collection("consultations")
+            .orderBy("date")
+            .get()
+            .await()
+
+        emit(ResourceState.Success(fetch.toObjects(ConsultationModel::class.java)))
+    }.catch { error ->
+        emit(ResourceState.Error(error.message))
+    }.flowOn(Dispatchers.IO)
+
+    override fun fetchDiagnosis(): Flow<ResourceState<List<DiagnosisModel>>> = flow {
+        emit(ResourceState.Loading<List<DiagnosisModel>>())
+
+        val fetch = database.collection("diagnosis")
+            .orderBy("date")
+            .get()
+            .await()
+
+        emit(ResourceState.Success(fetch.toObjects(DiagnosisModel::class.java)))
     }.catch { error ->
         emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
@@ -74,6 +89,26 @@ constructor(
         emit(ResourceState.Error(error.message))
     }.flowOn(Dispatchers.IO)
 
+    override fun fetchUserPrivilege(): Flow<UserPrivilege> = flow {
+        val user = auth.currentUser
+        user?.let { data ->
+            val result = data.getIdToken(false).await()
+            val isAdmin = result.claims["isAdmin"] as? Boolean
+
+            isAdmin?.let { value ->
+                if (value) {
+                    emit(UserPrivilege.ADMIN)
+                } else {
+                    emit(UserPrivilege.NORMAL)
+                }
+            } ?: run {
+                emit(UserPrivilege.ERROR)
+            }
+        }
+    }.catch {
+        emit(UserPrivilege.ERROR)
+    }.flowOn(Dispatchers.IO)
+
     override fun login(email: String?, password: String?): Flow<AuthState> = flow {
         emit(AuthState.LOADING)
 
@@ -83,8 +118,8 @@ constructor(
         } else {
             emit(AuthState.INVALID)
         }
-    }.catch { e ->
-        when (e) {
+    }.catch { error ->
+        when (error) {
             is FirebaseAuthEmailException -> {
                 emit(AuthState.INVALID)
             }
@@ -127,8 +162,8 @@ constructor(
             })
 
             emit(AuthState.AUTHENTICATED)
-        }.catch { e ->
-            when (e) {
+        }.catch { error ->
+            when (error) {
                 is FirebaseAuthUserCollisionException -> {
                     emit(AuthState.COLLIDE)
                 }
@@ -144,7 +179,7 @@ constructor(
         }.flowOn(Dispatchers.IO)
 
     override fun saveConsultationInformation(
-        data: ConsultationFormModel
+        data: ConsultationModel
     ): Flow<ResourceState<out Nothing?>> = flow {
         emit(ResourceState.Loading(null))
 
@@ -158,7 +193,7 @@ constructor(
     }.flowOn(Dispatchers.IO)
 
     override fun saveDiagnosisInformation(
-        data: DiagnosisFormModel
+        data: DiagnosisModel
     ): Flow<ResourceState<out Nothing?>> = flow {
         emit(ResourceState.Loading(null))
 

@@ -1,22 +1,7 @@
-/*
- * Copyright 2020 Angga Satya Putra
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package id.ac.esaunggul.breastcancerdetection.ui
 
 import android.animation.LayoutTransition
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -28,7 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.databinding.ActivityCommonBinding
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.MenuInflaterDispatcher
 import id.ac.esaunggul.breastcancerdetection.util.dispatcher.NavigationDispatcher
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.SharedPrefDispatcher
 import id.ac.esaunggul.breastcancerdetection.util.dispatcher.ToastDispatcher
 import id.ac.esaunggul.breastcancerdetection.util.event.observe
 import id.ac.esaunggul.breastcancerdetection.util.extensions.applyInsets
@@ -41,7 +28,13 @@ import javax.inject.Inject
 class CommonActivity : AppCompatActivity() {
 
     @Inject
+    lateinit var menuInflaterDispatcher: MenuInflaterDispatcher
+
+    @Inject
     lateinit var navigationDispatcher: NavigationDispatcher
+
+    @Inject
+    lateinit var sharedPrefDispatcher: SharedPrefDispatcher
 
     @Inject
     lateinit var toastDispatcher: ToastDispatcher
@@ -74,6 +67,8 @@ class CommonActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
 
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+
         /*
          * Adjust layout transition as the default one flickers on View.GONE.
          */
@@ -99,13 +94,28 @@ class CommonActivity : AppCompatActivity() {
             }
         )
 
+        /*
+         * Dispatcher for menu inflater in auth viewmodel.
+         */
+        menuInflaterDispatcher.menuInflaterParam.observe(this) { param ->
+            binding.commonNavView.menu.clear()
+            binding.commonNavView.inflateMenu(param)
+        }
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.common_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.fragment_home, R.id.fragment_consultation, R.id.fragment_notification,
-                R.id.fragment_diagnosis, R.id.fragment_profile
+                R.id.fragment_home,
+                R.id.fragment_consultation,
+                R.id.fragment_consultation_admin,
+                R.id.fragment_notification,
+                R.id.fragment_notification_admin,
+                R.id.fragment_diagnosis,
+                R.id.fragment_diagnosis_admin,
+                R.id.fragment_profile,
+                R.id.fragment_profile_admin
             )
         )
         binding.commonToolbar.setupWithNavController(navController, appBarConfiguration)
@@ -116,6 +126,10 @@ class CommonActivity : AppCompatActivity() {
          */
         navigationDispatcher.navigationCommands.observe(this) { command ->
             command.invoke(navController)
+        }
+
+        sharedPrefDispatcher.sharedPrefCommands.observe(this) { command ->
+            command.invoke(sharedPref)
         }
 
         /*
@@ -134,7 +148,6 @@ class CommonActivity : AppCompatActivity() {
 
         /*
          * Hide the app bar and navigation bar when no user is authenticated.
-         * Also hide the title as we use non-default title.
          */
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -143,28 +156,24 @@ class CommonActivity : AppCompatActivity() {
                     hasLogin = false
                     binding.commonAppBar.visibility = View.GONE
                     binding.commonNavView.visibility = View.GONE
-                    binding.commonToolbar.title = null
                 }
                 R.id.fragment_login -> {
                     removeInsets(binding.commonParentLayout)
                     hasLogin = false
                     binding.commonAppBar.visibility = View.GONE
                     binding.commonNavView.visibility = View.GONE
-                    binding.commonToolbar.title = null
                 }
                 R.id.fragment_registration -> {
                     removeInsets(binding.commonParentLayout)
                     hasLogin = false
                     binding.commonAppBar.visibility = View.GONE
                     binding.commonNavView.visibility = View.GONE
-                    binding.commonToolbar.title = null
                 }
                 else -> {
                     applyInsets(binding.commonParentLayout)
                     hasLogin = true
                     binding.commonAppBar.visibility = View.VISIBLE
                     binding.commonNavView.visibility = View.VISIBLE
-                    binding.commonToolbar.title = null
                 }
             }
         }

@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2020 Angga Satya Putra
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
-  in compliance with the License. You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the License
-  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  or implied. See the License for the specific language governing permissions and limitations under
-  the License.
-  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Metadata. -->
     <string name="app_name">Detection</string>
@@ -33,6 +20,7 @@
 
     <string name="form_empty">This field is required</string>
     <string name="form_submitted">Form successfully submitted</string>
+    <string name="form_type">Type</string>
 
     <string name="mtrl_picker_date_header_unselected" tools:override="true">Date</string>
     <string name="mtrl_picker_text_input_date_hint" tools:override="true">Consultation Date</string>
@@ -69,7 +57,9 @@
     <string name="auth_image_description">People in this together image</string>
     <string name="author_image_description">Author image</string>
     <string name="diagnosis_image_description">Menu image</string>
+    <string name="diagnosis_mammography_image_description">Mammography image</string>
     <string name="navigate_description">Go into this option</string>
+    <string name="profile_image_description">Profile image</string>
     <string name="notification_image_description">Notification status icon</string>
 
     <!-- Main Strings. -->
@@ -80,4 +70,33 @@
     <string name="diagnosis_mammography_description">Breast cancer examination using low energy X-rays</string>
 
     <string name="notification_caught_up">All caught up!</string>
+
+    <!-- Admin Strings. -->
+    <string name="consultation_accept">Accept</string>
+    <string name="consultation_deny">Deny</string>
+    <string name="consultation_accepted">Accepted</string>
+    <string name="consultation_denied">Denied</string>
+
+    <string name="diagnose">Diagnose</string>
+    <string name="diagnosis_loading_hint">Please wait while we\'re processing the mammography</string>
+    <string name="diagnosis_upload_title">Mammography for %s</string>
+    <string name="diagnosis_upload_image_hint">Image format: PNG</string>
+    <string name="diagnosis_upload_add_image">+ Upload Mammography</string>
+    <string name="diagnosis_upload_add_image_hint">Or click the pictures to upload the mammography</string>
+    <string name="diagnosis_upload_button">Upload</string>
+    <string name="diagnosis_upload_spinner_hint">View</string>
+
+    <string name="diagnosis_result_benign">Benign: %s</string>
+    <string name="diagnosis_result_malignant">Malignant: %s</string>
+
+    <string name="warn_image_not_selected">Please select an image first</string>
+    <string name="warn_image_not_supported">Image is not supported</string>
+    <string name="warn_view_not_selected">Please select a view first</string>
+
+    <string-array name="diagnosis_view">
+        <item>L-CC</item>
+        <item>L-MLO</item>
+        <item>R-CC</item>
+        <item>R-MLO</item>
+    </string-array>
 </resources>

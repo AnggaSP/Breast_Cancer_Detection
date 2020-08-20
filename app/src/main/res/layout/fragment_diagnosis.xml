@@ -1,107 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2020 Angga Satya Putra
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
-  in compliance with the License. You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the License
-  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  or implied. See the License for the specific language governing permissions and limitations under
-  the License.
-  -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.user.diagnosis.DiagnosisFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context=".ui.main.user.diagnosis.DiagnosisFragment">
 
-    <data>
+	<data>
 
-        <import type="androidx.navigation.Navigation" />
+		<import type="androidx.navigation.Navigation" />
 
-        <variable
-            name="direction"
-            type="id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis.DiagnosisFragmentDirections.Companion" />
+		<variable
+			name="direction"
+			type="id.ac.esaunggul.breastcancerdetection.ui.main.user.diagnosis.DiagnosisFragmentDirections.Companion" />
 
-    </data>
+	</data>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/diagnosis_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:onClick="@{view -> Navigation.findNavController(view).navigate(direction.actionDiagnosisToForm())}"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+	<com.google.android.material.card.MaterialCardView
+		android:id="@+id/diagnosis_card_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="8dp"
+		android:onClick="@{view -> Navigation.findNavController(view).navigate(direction.actionDiagnosisToForm())}"
+		app:cardElevation="3dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/diagnosis_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/diagnosis_image_description"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_mammography"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/diagnosis_text_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
+			<ImageView
+				android:id="@+id/diagnosis_image"
+				android:layout_width="60dp"
+				android:layout_height="60dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginBottom="8dp"
+				android:contentDescription="@string/diagnosis_image_description"
+				android:scaleType="centerCrop"
+				android:src="@drawable/ic_mammography"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/diagnosis_text_title"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:src="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/diagnosis_text_title"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/diagnosis_mammography"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/diagnosis_text_description"
-                app:layout_constraintEnd_toStartOf="@id/diagnosis_image_navigation_hint"
-                app:layout_constraintStart_toEndOf="@id/diagnosis_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="spread"
-                app:layout_constraintVertical_weight="0.35"
-                tools:text="Title" />
+			<TextView
+				android:id="@+id/diagnosis_text_title"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginEnd="8dp"
+				android:text="@string/diagnosis_mammography"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toTopOf="@id/diagnosis_text_description"
+				app:layout_constraintEnd_toStartOf="@id/diagnosis_image_navigation_hint"
+				app:layout_constraintStart_toEndOf="@id/diagnosis_image"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintVertical_chainStyle="spread"
+				app:layout_constraintVertical_weight="0.35"
+				tools:text="Title" />
 
-            <TextView
-                android:id="@+id/diagnosis_text_description"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/diagnosis_mammography_description"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/diagnosis_image_navigation_hint"
-                app:layout_constraintStart_toEndOf="@id/diagnosis_image"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_text_title"
-                app:layout_constraintVertical_weight="0.65"
-                tools:text="Description" />
+			<TextView
+				android:id="@+id/diagnosis_text_description"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="8dp"
+				android:layout_marginEnd="8dp"
+				android:layout_marginBottom="8dp"
+				android:text="@string/diagnosis_mammography_description"
+				android:textSize="12sp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/diagnosis_image_navigation_hint"
+				app:layout_constraintStart_toEndOf="@id/diagnosis_image"
+				app:layout_constraintTop_toBottomOf="@id/diagnosis_text_title"
+				app:layout_constraintVertical_weight="0.65"
+				tools:text="Description" />
 
-            <ImageView
-                android:id="@+id/diagnosis_image_navigation_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/navigate_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_forward_themed" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+			<ImageView
+				android:id="@+id/diagnosis_image_navigation_hint"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="16dp"
+				android:contentDescription="@string/navigate_description"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:srcCompat="@drawable/ic_forward_themed" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</com.google.android.material.card.MaterialCardView>
 </layout>

@@ -1,32 +1,18 @@
-/*
- * Copyright 2020 Angga Satya Putra
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package id.ac.esaunggul.breastcancerdetection.ui.auth
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import id.ac.esaunggul.breastcancerdetection.NavigationAuthDirections
 import id.ac.esaunggul.breastcancerdetection.R
 import id.ac.esaunggul.breastcancerdetection.data.repo.Repo
-import id.ac.esaunggul.breastcancerdetection.ui.auth.login.LoginFragmentDirections
-import id.ac.esaunggul.breastcancerdetection.ui.auth.register.RegisterFragmentDirections
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.MenuInflaterDispatcher
 import id.ac.esaunggul.breastcancerdetection.util.dispatcher.NavigationDispatcher
+import id.ac.esaunggul.breastcancerdetection.util.dispatcher.SharedPrefDispatcher
 import id.ac.esaunggul.breastcancerdetection.util.dispatcher.ToastDispatcher
 import id.ac.esaunggul.breastcancerdetection.util.state.AuthState
+import id.ac.esaunggul.breastcancerdetection.util.state.UserPrivilege
 import id.ac.esaunggul.breastcancerdetection.util.validation.FormValidation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -37,7 +23,9 @@ import timber.log.Timber
 class AuthViewModel
 @ViewModelInject
 constructor(
+    private val menuInflaterDispatcher: MenuInflaterDispatcher,
     private val navigationDispatcher: NavigationDispatcher,
+    private val sharedPrefDispatcher: SharedPrefDispatcher,
     private val toastDispatcher: ToastDispatcher,
     private val repo: Repo
 ) : ViewModel() {
@@ -65,10 +53,25 @@ constructor(
     fun init() {
         val state = repo.checkSession()
         if (state == AuthState.AUTHENTICATED) {
-            navigationDispatcher.emit { navController ->
-                navController.navigate(
-                    AuthFragmentDirections.actionUserAuthenticated()
-                )
+            sharedPrefDispatcher.emit { sharedPref ->
+                val isAdmin =
+                    sharedPref.getBoolean("id.ac.esaunggul.breastcancerdetection.ADMIN_KEY", false)
+
+                if (isAdmin) {
+                    menuInflaterDispatcher.emit(R.menu.nav_menu_admin)
+                    navigationDispatcher.emit { navController ->
+                        navController.navigate(
+                            NavigationAuthDirections.actionUserAuthenticatedAdmin()
+                        )
+                    }
+                } else {
+                    menuInflaterDispatcher.emit(R.menu.nav_menu_user)
+                    navigationDispatcher.emit { navController ->
+                        navController.navigate(
+                            NavigationAuthDirections.actionUserAuthenticated()
+                        )
+                    }
+                }
             }
         }
     }
@@ -82,14 +85,46 @@ constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 repo.login(emailField.value, passwordField.value).collect { state ->
                     when (state) {
-                        AuthState.AUTHENTICATED ->
-                            withContext(Dispatchers.Main) {
-                                navigationDispatcher.emit { navController ->
-                                    navController.navigate(
-                                        LoginFragmentDirections.actionLoginAuthenticated()
-                                    )
+                        AuthState.AUTHENTICATED -> {
+                            repo.fetchUserPrivilege().collect { privilege ->
+                                when (privilege) {
+                                    UserPrivilege.ADMIN ->
+                                        withContext(Dispatchers.Main) {
+                                            saveAdminKey(true)
+                                            menuInflaterDispatcher.emit(R.menu.nav_menu_admin)
+                                            navigationDispatcher.emit { navController ->
+                                                navController.navigate(
+                                                    NavigationAuthDirections.actionUserAuthenticatedAdmin()
+                                                )
+                                            }
+                                        }
+
+                                    UserPrivilege.NORMAL ->
+                                        withContext(Dispatchers.Main) {
+                                            saveAdminKey(false)
+                                            menuInflaterDispatcher.emit(R.menu.nav_menu_user)
+                                            navigationDispatcher.emit { navController ->
+                                                navController.navigate(
+                                                    NavigationAuthDirections.actionUserAuthenticated()
+                                                )
+                                            }
+                                        }
+
+                                    UserPrivilege.ERROR -> {
+                                        Timber.e("Error calling user privilege check, assuming normal user")
+                                        withContext(Dispatchers.Main) {
+                                            saveAdminKey(false)
+                                            menuInflaterDispatcher.emit(R.menu.nav_menu_user)
+                                            navigationDispatcher.emit { navController ->
+                                                navController.navigate(
+                                                    NavigationAuthDirections.actionUserAuthenticated()
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                        }
 
                         AuthState.LOADING -> {
                             Timber.d("Loading the data...")
@@ -129,7 +164,7 @@ constructor(
             nameError.value = R.string.name_invalid
         }
 
-        state = commonValidation() && state
+        state = commonValidation() || state
 
         if (passwordField.value != passwordConfirmField.value) {
             passwordError.value = R.string.password_not_matched
@@ -146,9 +181,12 @@ constructor(
                     when (state) {
                         AuthState.AUTHENTICATED ->
                             withContext(Dispatchers.Main) {
+                                // We don't support setting up admin client side
+                                saveAdminKey(false)
+                                menuInflaterDispatcher.emit(R.menu.nav_menu_user)
                                 navigationDispatcher.emit { navController ->
                                     navController.navigate(
-                                        RegisterFragmentDirections.actionRegisterAuthenticated()
+                                        NavigationAuthDirections.actionUserAuthenticated()
                                     )
                                 }
                             }
@@ -205,6 +243,15 @@ constructor(
             state = false
         }
         return state
+    }
+
+    private fun saveAdminKey(admin: Boolean) {
+        sharedPrefDispatcher.emit { sharedPref ->
+            with(sharedPref.edit()) {
+                putBoolean("id.ac.esaunggul.breastcancerdetection.ADMIN_KEY", admin)
+                commit()
+            }
+        }
     }
 
     private fun setClickableButtonBackground() {

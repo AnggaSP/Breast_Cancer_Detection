@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.admin.diagnosis.upload.DiagnosisLoadingFragment">
+
+    <data>
+
+        <variable
+            name="diagnosisUploadViewModel"
+            type="id.ac.esaunggul.breastcancerdetection.ui.main.admin.diagnosis.upload.DiagnosisUploadViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/diagnosis_loading_mammography"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:contentDescription="@string/diagnosis_mammography_image_description"
+            app:layout_constraintBottom_toTopOf="@+id/diagnosis_loading_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:imageUrl="@{diagnosisUploadViewModel.selectedImage}"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/diagnosis_loading_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/diagnosis_loading_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diagnosis_loading_progress" />
+
+        <ProgressBar
+            android:id="@+id/diagnosis_loading_progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/diagnosis_loading_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/diagnosis_loading_mammography" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2020 Angga Satya Putra
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
-  in compliance with the License. You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the License
-  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  or implied. See the License for the specific language governing permissions and limitations under
-  the License.
-  -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -30,17 +17,17 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/diagnosis_parent_layout"
+        android:id="@+id/diagnosis_form_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/diagnosis_main_layout"
+            android:id="@+id/diagnosis_form_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/diagnosis_title"
+                android:id="@+id/diagnosis_form_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -55,7 +42,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/diagnosis_name_layout"
+                android:id="@+id/diagnosis_form_name_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -66,10 +53,10 @@
                 app:error="@{userViewModel.nameError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_title">
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_form_title">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/diagnosis_name_field"
+                    android:id="@+id/diagnosis_form_name_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_name_hint"
@@ -78,7 +65,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/diagnosis_address_layout"
+                android:id="@+id/diagnosis_form_address_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -89,10 +76,10 @@
                 app:error="@{userViewModel.addressError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_name_layout">
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_form_name_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/diagnosis_address_field"
+                    android:id="@+id/diagnosis_form_address_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_address_hint"
@@ -101,7 +88,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/diagnosis_history_layout"
+                android:id="@+id/diagnosis_form_history_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -112,10 +99,10 @@
                 app:error="@{userViewModel.historyError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_address_layout">
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_form_address_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/diagnosis_history_field"
+                    android:id="@+id/diagnosis_form_history_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/form_history_hint"
@@ -124,7 +111,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/diagnosis_date_layout"
+                android:id="@+id/diagnosis_form_date_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -135,10 +122,10 @@
                 app:error="@{userViewModel.dateError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_history_layout">
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_form_history_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/diagnosis_date_field"
+                    android:id="@+id/diagnosis_form_date_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="false"
@@ -150,7 +137,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/diagnosis_confirm_button"
+                android:id="@+id/diagnosis_form_confirm_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -161,7 +148,7 @@
                 android:text="@string/diagnosis_form_button_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_date_layout"
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_form_date_layout"
                 app:onHideText="@{@string/diagnosis_form_button_hint}"
                 app:showProgress="@{userViewModel.loading}" />
         </androidx.constraintlayout.widget.ConstraintLayout>

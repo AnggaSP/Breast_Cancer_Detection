@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2020 Angga Satya Putra
-
-  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
-  in compliance with the License. You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software distributed under the License
-  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
-  or implied. See the License for the specific language governing permissions and limitations under
-  the License.
-  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Metadata. -->
     <string name="app_name">Deteksi</string>
@@ -33,6 +20,7 @@
 
     <string name="form_empty">Bagian ini wajib diisi</string>
     <string name="form_submitted">Data berhasil dimasukkan</string>
+    <string name="form_type">Tipe</string>
 
     <string name="mtrl_picker_date_header_unselected" tools:override="true">Tanggal</string>
     <string name="mtrl_picker_text_input_date_hint" tools:override="true">Tanggal Konsultasi</string>
@@ -69,7 +57,9 @@
     <string name="auth_image_description">Gambar melambangkan kebersamaan</string>
     <string name="author_image_description">Gambar penulis</string>
     <string name="diagnosis_image_description">Gambar menu</string>
+    <string name="diagnosis_mammography_image_description">Gambar mammography</string>
     <string name="navigate_description">Masuk ke dalam opsi ini</string>
+    <string name="profile_image_description">Gambar profil</string>
     <string name="notification_image_description">Ikon status notifikasi</string>
 
     <!-- Main Strings. -->
@@ -80,4 +70,26 @@
     <string name="diagnosis_mammography_description">Pemeriksaan kanker payudara menggunakan sinar-X dosis rendah</string>
 
     <string name="notification_caught_up">Semua notifikasi telah dibaca</string>
+
+    <!-- Admin Strings. -->
+    <string name="consultation_accept">Terima</string>
+    <string name="consultation_deny">Tolak</string>
+    <string name="consultation_accepted">Diterima</string>
+    <string name="consultation_denied">Ditolak</string>
+
+    <string name="diagnose">Lakukan Diagnosis</string>
+    <string name="diagnosis_loading_hint">Mohon menunggu selagi pemrosesan mamografi</string>
+    <string name="diagnosis_upload_title">Mammografi untuk %s</string>
+    <string name="diagnosis_upload_image_hint">Format gambar: PNG</string>
+    <string name="diagnosis_upload_add_image">+ Upload Mammografi</string>
+    <string name="diagnosis_upload_add_image_hint">Atau klik gambar untuk upload mammografi</string>
+    <string name="diagnosis_upload_button">Upload</string>
+    <string name="diagnosis_upload_spinner_hint">Posisi</string>
+
+    <string name="diagnosis_result_benign">Jinak: %s</string>
+    <string name="diagnosis_result_malignant">Ganas: %s</string>
+
+    <string name="warn_image_not_selected">Mohon untuk memilih gambar</string>
+    <string name="warn_image_not_supported">Gambar tidak didukung</string>
+    <string name="warn_view_not_selected">Mohon untuk memilih posisi</string>
 </resources>
